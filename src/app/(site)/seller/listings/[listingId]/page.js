@@ -10,9 +10,12 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import Spinner from '@/components/ui/Spinner';
 import PageHeader from '@/components/ui/PageHeader';
+import Alert from '@/components/ui/Alert';
+import FileUpload from '@/components/ui/FileUpload';
+import EmptyState from '@/components/ui/EmptyState';
 import MediaGallery from '@/components/listings/MediaGallery';
 import SpecTable from '@/components/listings/SpecTable';
-import { AlertTriangleIcon, UploadIcon } from '@/components/ui/Icons';
+import { AlertTriangleIcon } from '@/components/ui/Icons';
 
 export default function EditListingPage() {
   const { listingId } = useParams();
@@ -48,8 +51,7 @@ export default function EditListingPage() {
     loadListing();
   }, [loadListing]);
 
-  async function handleFileChange(e) {
-    const files = Array.from(e.target.files);
+  async function handleFileChange(files) {
     if (files.length === 0) return;
 
     setUploading(true);
@@ -63,7 +65,6 @@ export default function EditListingPage() {
       setError(err.message || 'Upload failed');
     } finally {
       setUploading(false);
-      e.target.value = ''; // reset so the same file can be selected again
     }
   }
 
@@ -98,12 +99,7 @@ export default function EditListingPage() {
 
   if (loading) return <Spinner />;
   if (error && !listing) {
-    return (
-      <p className="flex items-center gap-1.5 text-sm text-red-600">
-        <AlertTriangleIcon className="h-4 w-4 flex-shrink-0" />
-        {error}
-      </p>
-    );
+    return <EmptyState icon={AlertTriangleIcon} title={error} description="Try going back to your listings." />;
   }
 
   const canEditMedia = ['draft', 'rejected'].includes(listing.status);
@@ -120,23 +116,18 @@ export default function EditListingPage() {
       />
 
       {listing.status === 'rejected' && listing.rejectionReason && (
-        <Card className="mb-4 border-red-200 bg-red-50">
-          <p className="flex items-start gap-2 text-sm text-red-700">
-            <AlertTriangleIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-            Rejection reason: {listing.rejectionReason}
-          </p>
-        </Card>
+        <Alert tone="error" className="mb-4">
+          Rejection reason: {listing.rejectionReason}
+        </Alert>
       )}
 
       {needsSellerEmd && (
-        <Card className="mb-4 border-amber-200 bg-amber-50">
-          <p className="mb-3 text-sm text-amber-800">
-            You need to pay the seller EMD before the auction can be published.
-          </p>
-          <Button onClick={handlePaySellerEmd} loading={payingEmd}>
+        <Alert tone="warning" className="mb-4">
+          <p className="mb-3">You need to pay the seller EMD before the auction can be published.</p>
+          <Button onClick={handlePaySellerEmd} loading={payingEmd} size="sm">
             Pay EMD
           </Button>
-        </Card>
+        </Alert>
       )}
 
       <Card className="mb-4">
@@ -147,20 +138,14 @@ export default function EditListingPage() {
         </div>
 
         {canEditMedia && (
-          <>
-            <label className="flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-600">
-              <UploadIcon className="h-4 w-4 text-slate-400" />
-              <input
-                type="file"
-                multiple
-                accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"
-                onChange={handleFileChange}
-                disabled={uploading}
-                className="block w-full text-sm text-slate-600 file:mr-4 file:rounded-xl file:border-0 file:bg-amber-500 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-slate-900 hover:file:bg-amber-400 disabled:opacity-50"
-              />
-            </label>
-            {uploading && <p className="mt-2 text-xs text-slate-500">Uploading...</p>}
-          </>
+          <FileUpload
+            label={uploading ? 'Uploading…' : 'Click to upload photos or videos'}
+            hint="JPG, PNG, WEBP, or MP4 — you can select multiple files"
+            accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"
+            multiple
+            disabled={uploading}
+            onFiles={handleFileChange}
+          />
         )}
       </Card>
 
@@ -172,10 +157,9 @@ export default function EditListingPage() {
       )}
 
       {error && (
-        <p className="mb-4 flex items-center gap-1.5 text-sm text-red-600">
-          <AlertTriangleIcon className="h-4 w-4 flex-shrink-0" />
+        <Alert tone="error" className="mb-4">
           {error}
-        </p>
+        </Alert>
       )}
 
       {canSubmit && (

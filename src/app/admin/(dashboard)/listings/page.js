@@ -11,21 +11,26 @@ import Textarea from '@/components/ui/Textarea';
 import Spinner from '@/components/ui/Spinner';
 import EmptyState from '@/components/ui/EmptyState';
 import PageHeader from '@/components/ui/PageHeader';
+import Alert from '@/components/ui/Alert';
 import { PackageIcon } from '@/components/ui/Icons';
 
 const STATUS_TABS = [
+  { value: 'all', label: 'All' },
+  { value: 'draft', label: 'Draft' },
+  { value: 'pending_payment', label: 'Pending Payment' },
   { value: 'under_review', label: 'Under Review' },
   { value: 'active', label: 'Active' },
   { value: 'rejected', label: 'Rejected' },
 ];
 
 export default function AdminListingsPage() {
-  const [status, setStatus] = useState('under_review');
+  const [status, setStatus] = useState('all');
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rejectingId, setRejectingId] = useState(null);
   const [reason, setReason] = useState('');
-  const [acting, setActing] = useState(false);
+  const [actingId, setActingId] = useState(null);
+  const [error, setError] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -45,31 +50,46 @@ export default function AdminListingsPage() {
   }, [load]);
 
   async function handleApprove(listingId) {
-    setActing(true);
+    if (actingId) return; // ek waqt me sirf ek action — double-submit guard
+    setActingId(listingId);
+    setError('');
     try {
       await api.post(`/listings/admin/${listingId}/review`, { action: 'approve' }, 'admin');
-      load();
+      await load();
+    } catch (err) {
+      setError(err.message || 'Failed to approve listing');
     } finally {
-      setActing(false);
+      setActingId(null);
     }
   }
 
   async function handleReject(listingId) {
-    if (!reason.trim()) return;
-    setActing(true);
+    if (actingId || !reason.trim()) return;
+    setActingId(listingId);
+    setError('');
     try {
       await api.post(`/listings/admin/${listingId}/review`, { action: 'reject', reason }, 'admin');
       setRejectingId(null);
       setReason('');
-      load();
+      await load();
+    } catch (err) {
+      setError(err.message || 'Failed to reject listing');
     } finally {
-      setActing(false);
+      setActingId(null);
     }
   }
 
   return (
     <div>
-      <PageHeader title="Listings" description="Moderate marketplace listings awaiting review." />
+      <PageHeader
+        title="Listings"
+        description="Moderate marketplace listings awaiting review."
+        actions={
+          <Link href="/admin/listings/new">
+            <Button>Post Equipment</Button>
+          </Link>
+        }
+      />
 
       <div className="mb-4 flex flex-wrap gap-2">
         {STATUS_TABS.map((tab) => (
@@ -86,6 +106,12 @@ export default function AdminListingsPage() {
           </button>
         ))}
       </div>
+
+      {error && (
+        <Alert tone="error" className="mb-4">
+          {error}
+        </Alert>
+      )}
 
       {loading && <Spinner />}
 
@@ -113,15 +139,28 @@ export default function AdminListingsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge status={listing.status}>{listing.status}</Badge>
-                  <Link href={`/listings/${listing.slug || listing._id}`} target="_blank">
-                    <Button variant="ghost">View</Button>
+                  <Link href={`/admin/listings/${listing._id}`}>
+                    <Button variant="secondary">Details</Button>
                   </Link>
-                  {status === 'under_review' && (
+                  {listing.status === 'active' && (
+                    <Link href={`/listings/${listing.slug || listing._id}`} target="_blank">
+                      <Button variant="ghost">View</Button>
+                    </Link>
+                  )}
+                  {listing.status === 'under_review' && (
                     <>
-                      <Button onClick={() => handleApprove(listing._id)} loading={acting}>
+                      <Button
+                        onClick={() => handleApprove(listing._id)}
+                        loading={actingId === listing._id}
+                        disabled={actingId !== null && actingId !== listing._id}
+                      >
                         Approve
                       </Button>
-                      <Button variant="danger" onClick={() => setRejectingId(listing._id)}>
+                      <Button
+                        variant="danger"
+                        onClick={() => setRejectingId(listing._id)}
+                        disabled={actingId !== null}
+                      >
                         Reject
                       </Button>
                     </>
@@ -139,7 +178,11 @@ export default function AdminListingsPage() {
                     className="mb-2"
                   />
                   <div className="flex gap-2">
-                    <Button variant="danger" onClick={() => handleReject(listing._id)} loading={acting}>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleReject(listing._id)}
+                      loading={actingId === listing._id}
+                    >
                       Confirm Reject
                     </Button>
                     <Button variant="ghost" onClick={() => setRejectingId(null)}>

@@ -41,9 +41,16 @@ export default function WishlistPage() {
           description="Save listings you're interested in and they'll show up here."
         />
       ) : (
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {listings.map((listing) => (
-            <ListingCard key={listing._id} listing={listing} />
+            <ListingCard
+              key={listing._id}
+              listing={listing}
+              initialWishlisted
+              onWishlistChange={(added) => {
+                if (!added) setListings((prev) => prev.filter((l) => l._id !== listing._id));
+              }}
+            />
           ))}
         </div>
       )}

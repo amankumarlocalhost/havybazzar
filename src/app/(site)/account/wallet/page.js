@@ -10,6 +10,7 @@ import Input from '@/components/ui/Input';
 import Spinner from '@/components/ui/Spinner';
 import EmptyState from '@/components/ui/EmptyState';
 import PageHeader from '@/components/ui/PageHeader';
+import Alert from '@/components/ui/Alert';
 import { WalletIcon, ClipboardListIcon } from '@/components/ui/Icons';
 
 const TXN_LABELS = {
@@ -80,7 +81,7 @@ export default function WalletPage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-slate-500">
-              <WalletIcon className="h-4 w-4 text-amber-600" />
+              <WalletIcon className="h-4 w-4 text-brand-600" />
               HB Coins Balance
             </p>
             <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900">{formatPaise(balance)}</p>
@@ -110,7 +111,7 @@ export default function WalletPage() {
               placeholder="e.g. HDFC0001234"
               required
             />
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <Alert tone="error">{error}</Alert>}
             <Button type="submit" loading={submitting}>
               Send Request
             </Button>

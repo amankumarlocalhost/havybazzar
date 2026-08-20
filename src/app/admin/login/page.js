@@ -11,8 +11,8 @@ export default function AdminLoginPage() {
   const { login } = useAdminAuth();
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(process.env.NODE_ENV === 'development' ? 'amanxokumar@gmail.com' : '');
+  const [password, setPassword] = useState(process.env.NODE_ENV === 'development' ? 'XdZxsWRFSkBs' : '');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 

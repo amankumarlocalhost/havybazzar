@@ -11,10 +11,14 @@ import Spinner from '@/components/ui/Spinner';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import Alert from '@/components/ui/Alert';
+import Checkbox from '@/components/ui/Checkbox';
+import EmptyState from '@/components/ui/EmptyState';
+import Tabs from '@/components/ui/Tabs';
 import MediaGallery from '@/components/listings/MediaGallery';
 import SpecTable from '@/components/listings/SpecTable';
 import ListingCard from '@/components/listings/ListingCard';
-import { MapPinIcon, HeartIcon, GavelIcon } from '@/components/ui/Icons';
+import { MapPinIcon, HeartIcon, GavelIcon, InboxIcon } from '@/components/ui/Icons';
 
 export default function ListingDetailPage() {
   const { slugOrId } = useParams();
@@ -29,6 +33,7 @@ export default function ListingDetailPage() {
   const [buyError, setBuyError] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+  const [activeTab, setActiveTab] = useState('description');
 
   useEffect(() => {
     async function load() {
@@ -90,11 +95,17 @@ export default function ListingDetailPage() {
 
   if (error || !listing) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <p className="text-sm text-red-600">{error || 'Listing not found'}</p>
-        <Link href="/listings" className="mt-4 inline-block text-sm font-medium text-amber-600 hover:text-amber-700">
-          Browse other listings
-        </Link>
+      <div className="mx-auto max-w-3xl px-4 py-16">
+        <EmptyState
+          icon={InboxIcon}
+          title={error || 'Listing not found'}
+          description="It may have been removed or is no longer available."
+          action={
+            <Link href="/listings">
+              <Button variant="secondary">Browse other listings</Button>
+            </Link>
+          }
+        />
       </div>
     );
   }
@@ -108,15 +119,26 @@ export default function ListingDetailPage() {
         <div className="lg:col-span-3">
           <MediaGallery media={listing.media} />
 
-          <Card className="mt-6">
-            <h2 className="mb-2 text-sm font-semibold text-slate-900">Description</h2>
-            <p className="text-sm leading-relaxed text-slate-600">
-              {listing.description || 'No description available.'}
-            </p>
-          </Card>
-
           <div className="mt-6">
-            <SpecTable specifications={listing.specifications} />
+            <Tabs
+              items={[
+                { value: 'description', label: 'Description' },
+                { value: 'specifications', label: 'Specifications' },
+              ]}
+              value={activeTab}
+              onChange={setActiveTab}
+              className="mb-4 max-w-xs"
+            />
+
+            {activeTab === 'description' ? (
+              <Card>
+                <p className="text-sm leading-relaxed text-slate-600">
+                  {listing.description || 'No description available.'}
+                </p>
+              </Card>
+            ) : (
+              <SpecTable specifications={listing.specifications} />
+            )}
           </div>
         </div>
 
@@ -151,21 +173,29 @@ export default function ListingDetailPage() {
               </>
             ) : (
               <>
-                <p className="mb-4 text-3xl font-bold tracking-tight text-slate-900">
-                  {formatPaise(listing.fixedPricePaise)}
-                </p>
+                <div className="mb-4">
+                  <p className="text-3xl font-bold tracking-tight text-slate-900">
+                    {formatPaise(listing.fixedPricePaise)}
+                  </p>
+                  {listing.totalQuantity > 1 && (
+                    <p className="mt-1 text-sm text-slate-500">
+                      {listing.quantityAvailable} of {listing.totalQuantity} units available
+                    </p>
+                  )}
+                </div>
 
-                <label className="mb-4 flex items-start gap-2 text-xs text-slate-600">
-                  <input
-                    type="checkbox"
-                    checked={acceptTerms}
-                    onChange={(e) => setAcceptTerms(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500/30"
-                  />
-                  I have read and accept the Terms & Conditions
-                </label>
+                <Checkbox
+                  className="mb-4"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  label="I have read and accept the Terms & Conditions"
+                />
 
-                {buyError && <p className="mb-3 text-xs text-red-600">{buyError}</p>}
+                {buyError && (
+                  <Alert tone="error" className="mb-3">
+                    {buyError}
+                  </Alert>
+                )}
 
                 <Button className="w-full" size="lg" onClick={handleBuyNow} loading={buying}>
                   Buy Now

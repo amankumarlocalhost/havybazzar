@@ -6,6 +6,7 @@ import { api } from '@/lib/api';
 import { formatPaise } from '@/lib/money';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import Button from '@/components/ui/Button';
 import Spinner from '@/components/ui/Spinner';
 import EmptyState from '@/components/ui/EmptyState';
 import PageHeader from '@/components/ui/PageHeader';
@@ -50,6 +51,11 @@ export default function MyBidsPage() {
           icon={GavelIcon}
           title="You haven't placed any bids yet"
           description="Browse live auctions and place a bid to see it here."
+          action={
+            <Link href="/listings?listingType=auction">
+              <Button variant="secondary">Browse Auctions</Button>
+            </Link>
+          }
         />
       ) : (
         <div className="space-y-3">

@@ -13,8 +13,10 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import Alert from '@/components/ui/Alert';
+import EmptyState from '@/components/ui/EmptyState';
 import CountdownTimer from '@/components/listings/CountdownTimer';
-import { ArrowRightIcon, GavelIcon, AlertTriangleIcon, CheckCircleIcon } from '@/components/ui/Icons';
+import { ArrowRightIcon, GavelIcon, CheckCircleIcon } from '@/components/ui/Icons';
 
 export default function AuctionPage() {
   const { auctionId } = useParams();
@@ -157,8 +159,8 @@ export default function AuctionPage() {
 
   if (error || !auction) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-        <p className="text-sm text-red-600">{error || 'Auction not found'}</p>
+      <div className="mx-auto max-w-3xl px-4 py-16">
+        <EmptyState icon={GavelIcon} title={error || 'Auction not found'} description="It may have ended or is no longer available." />
       </div>
     );
   }
@@ -171,7 +173,7 @@ export default function AuctionPage() {
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
       <Link
         href={`/listings/${auction.listingId?._id}`}
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-600 hover:text-amber-700"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:text-brand-800"
       >
         <ArrowRightIcon className="h-4 w-4 rotate-180" />
         {auction.listingId?.title}
@@ -212,15 +214,12 @@ export default function AuctionPage() {
             {isLive && (
               <>
                 {needsEmd && (
-                  <div className="mb-4 flex items-start gap-2 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">
-                    <AlertTriangleIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                    <div className="flex-1">
-                      You need to pay the EMD before you can bid.
-                      <Button className="mt-2 w-full" onClick={handleJoinAndPayEmd} loading={actionLoading}>
-                        Pay EMD and Join
-                      </Button>
-                    </div>
-                  </div>
+                  <Alert tone="warning" className="mb-4">
+                    <p>You need to pay the EMD before you can bid.</p>
+                    <Button className="mt-2 w-full" onClick={handleJoinAndPayEmd} loading={actionLoading}>
+                      Pay EMD and Join
+                    </Button>
+                  </Alert>
                 )}
 
                 <form onSubmit={handlePlaceBid} className="mb-3 flex gap-2">
@@ -260,7 +259,11 @@ export default function AuctionPage() {
                   </button>
                 )}
 
-                {actionError && <p className="mt-3 text-xs text-red-600">{actionError}</p>}
+                {actionError && (
+                  <Alert tone="error" className="mt-3">
+                    {actionError}
+                  </Alert>
+                )}
               </>
             )}
 

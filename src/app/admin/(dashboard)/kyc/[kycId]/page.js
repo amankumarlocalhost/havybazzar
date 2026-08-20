@@ -72,7 +72,7 @@ export default function AdminKycDetailPage() {
       <PageHeader
         title={kyc.userId?.fullName}
         description={kyc.userId?.email || kyc.userId?.phone}
-        actions={<Badge status="pending">Pending Review</Badge>}
+        actions={<Badge status={kyc.status} />}
       />
 
       {kyc.businessName && (
@@ -106,26 +106,37 @@ export default function AdminKycDetailPage() {
         </p>
       </Card>
 
-      <Card>
-        <Textarea
-          label="Reason for rejection (not required for verification)"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          rows={2}
-          className="mb-3"
-        />
+      {kyc.status === 'submitted' ? (
+        <Card>
+          <Textarea
+            label="Reason for rejection (not required for verification)"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            rows={2}
+            className="mb-3"
+          />
 
-        {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
+          {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
 
-        <div className="flex gap-3">
-          <Button onClick={() => handleReview('verify')} loading={acting}>
-            Verify
-          </Button>
-          <Button variant="danger" onClick={() => handleReview('reject')} loading={acting}>
-            Reject
-          </Button>
-        </div>
-      </Card>
+          <div className="flex gap-3">
+            <Button onClick={() => handleReview('verify')} loading={acting}>
+              Verify
+            </Button>
+            <Button variant="danger" onClick={() => handleReview('reject')} loading={acting}>
+              Reject
+            </Button>
+          </div>
+        </Card>
+      ) : (
+        <Card>
+          <p className="text-sm font-medium text-slate-900">
+            This KYC has already been {kyc.status === 'verified' ? 'verified' : kyc.status}.
+          </p>
+          {kyc.status === 'rejected' && kyc.rejectionReason && (
+            <p className="mt-1 text-sm text-slate-500">Reason: {kyc.rejectionReason}</p>
+          )}
+        </Card>
+      )}
     </div>
   );
 }

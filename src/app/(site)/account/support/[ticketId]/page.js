@@ -9,6 +9,8 @@ import Button from '@/components/ui/Button';
 import Textarea from '@/components/ui/Textarea';
 import Spinner from '@/components/ui/Spinner';
 import PageHeader from '@/components/ui/PageHeader';
+import EmptyState from '@/components/ui/EmptyState';
+import { LifeBuoyIcon } from '@/components/ui/Icons';
 
 export default function TicketDetailPage() {
   const { ticketId } = useParams();
@@ -44,7 +46,11 @@ export default function TicketDetailPage() {
   }
 
   if (loading) return <Spinner />;
-  if (!ticket) return <p className="text-sm text-red-600">Ticket not found</p>;
+  if (!ticket) {
+    return (
+      <EmptyState icon={LifeBuoyIcon} title="Ticket not found" description="This ticket may have been removed." />
+    );
+  }
 
   return (
     <div>
@@ -59,7 +65,7 @@ export default function TicketDetailPage() {
           <div
             key={i}
             className={`rounded-2xl p-3 text-sm ${
-              reply.isFromAdmin ? 'mr-8 bg-amber-50 text-amber-900' : 'ml-8 bg-slate-100 text-slate-900'
+              reply.isFromAdmin ? 'mr-8 bg-brand-50 text-brand-900' : 'ml-8 bg-slate-100 text-slate-900'
             }`}
           >
             <p>{reply.message}</p>

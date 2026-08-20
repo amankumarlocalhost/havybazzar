@@ -42,15 +42,15 @@ export default function SpecTable({ specifications }) {
     <div className="space-y-6">
       {groups.map(([groupKey, fields]) => (
         <div key={groupKey}>
-          <h3 className="mb-2 text-sm font-medium text-gray-900">
+          <h3 className="mb-2 text-sm font-semibold text-slate-900">
             {GROUP_LABELS[groupKey] || groupKey}
           </h3>
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-2 rounded-lg border border-gray-200 p-4 sm:grid-cols-3">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-slate-200 bg-white p-4 sm:grid-cols-3">
             {Object.entries(fields).map(([fieldKey, value]) =>
               value === undefined || value === null || value === '' ? null : (
                 <div key={fieldKey}>
-                  <dt className="text-xs text-gray-500">{FIELD_LABELS[fieldKey] || fieldKey}</dt>
-                  <dd className="text-sm text-gray-900">{formatValue(value)}</dd>
+                  <dt className="text-xs text-slate-500">{FIELD_LABELS[fieldKey] || fieldKey}</dt>
+                  <dd className="text-sm font-medium text-slate-900">{formatValue(value)}</dd>
                 </div>
               )
             )}

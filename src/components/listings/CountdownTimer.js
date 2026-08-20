@@ -34,7 +34,7 @@ export default function CountdownTimer({ endTime, onExpire }) {
 
   const { hours, minutes, seconds } = remaining;
   return (
-    <span className="font-mono text-lg font-semibold text-gray-900">
+    <span className="font-mono text-lg font-semibold text-slate-900">
       {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
     </span>
   );

@@ -63,22 +63,37 @@ export default function NotificationsPage() {
         <EmptyState icon={BellIcon} title="No notifications yet" description="You're all caught up." />
       ) : (
         <div className="space-y-2">
-          {items.map((n) => (
-            <Card
-              key={n._id}
-              hover
-              className={`cursor-pointer ${n.isRead ? 'bg-white' : 'bg-amber-50/60 ring-1 ring-amber-100'}`}
-              onClick={() => !n.isRead && handleMarkRead(n._id)}
-            >
-              <p className="text-sm font-semibold text-slate-900">{n.title}</p>
-              <p className="mt-1 text-xs text-slate-600">{n.message}</p>
-              <p className="mt-1 text-xs text-slate-400">
-                {new Date(n.createdAt).toLocaleString('en-IN')}
-              </p>
-            </Card>
-          ))}
+          {items.map((n) =>
+            n.isRead ? (
+              <Card key={n._id} className="bg-white">
+                <NotificationBody notification={n} />
+              </Card>
+            ) : (
+              <Card
+                key={n._id}
+                as="button"
+                interactive
+                className="bg-amber-50/60 ring-1 ring-amber-100"
+                onClick={() => handleMarkRead(n._id)}
+              >
+                <NotificationBody notification={n} />
+              </Card>
+            )
+          )}
         </div>
       )}
     </div>
+  );
+}
+
+function NotificationBody({ notification }) {
+  return (
+    <>
+      <p className="text-sm font-semibold text-slate-900">{notification.title}</p>
+      <p className="mt-1 text-xs text-slate-600">{notification.message}</p>
+      <p className="mt-1 text-xs text-slate-400">
+        {new Date(notification.createdAt).toLocaleString('en-IN')}
+      </p>
+    </>
   );
 }

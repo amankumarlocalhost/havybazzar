@@ -1,12 +1,24 @@
-export default function Card({ children, className = '', hover = false, padding = 'p-6', ...rest }) {
+export default function Card({
+  children,
+  className = '',
+  hover = false,
+  interactive = false,
+  padding = 'p-6',
+  as: Tag = 'div',
+  ...rest
+}) {
   return (
-    <div
-      className={`rounded-2xl border border-slate-200 bg-white ${padding} shadow-sm ${
-        hover ? 'transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md' : ''
+    <Tag
+      className={`rounded-2xl border border-slate-200 bg-white ${padding} shadow-sm text-left ${
+        hover ? 'transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md' : ''
+      } ${
+        interactive
+          ? 'w-full cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40'
+          : ''
       } ${className}`}
       {...rest}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

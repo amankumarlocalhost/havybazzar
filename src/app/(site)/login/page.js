@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import Alert from '@/components/ui/Alert';
+import { ShieldCheckIcon, GavelIcon, TruckIcon } from '@/components/ui/Icons';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -32,43 +33,77 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md items-center px-4">
-      <Card className="w-full">
-        <h1 className="mb-1 text-xl font-semibold text-gray-900">Login</h1>
-        <p className="mb-6 text-sm text-gray-500">Log in to your Heavy Bazar account</p>
+    <div className="grid min-h-[calc(100vh-4rem)] grid-cols-1 lg:grid-cols-2">
+      <div className="relative hidden overflow-hidden bg-brand-900 lg:flex lg:flex-col lg:justify-between lg:p-12">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--color-brand-700)_0%,_transparent_60%)] opacity-70" />
+        <Link href="/" className="relative flex items-center gap-2 text-lg font-bold text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-sm font-bold">
+            HB
+          </span>
+          Heavy Bazar
+        </Link>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Email or Phone"
-            id="identifier"
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            placeholder="aap@example.com"
-            required
-          />
-          <Input
-            label="Password"
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="relative">
+          <h2 className="max-w-sm text-3xl font-bold leading-tight text-white">
+            Welcome back to the marketplace built for heavy equipment.
+          </h2>
+          <div className="mt-8 space-y-4">
+            {[
+              { icon: ShieldCheckIcon, text: 'Verified sellers and secure payments' },
+              { icon: GavelIcon, text: 'Live auctions with real-time bidding' },
+              { icon: TruckIcon, text: 'Buyers and sellers nationwide' },
+            ].map((item) => (
+              <div key={item.text} className="flex items-center gap-3 text-sm text-brand-100">
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-white/10">
+                  <item.icon className="h-4 w-4" />
+                </span>
+                {item.text}
+              </div>
+            ))}
+          </div>
+        </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+        <p className="relative text-xs text-brand-200">&copy; {new Date().getFullYear()} Heavy Bazar</p>
+      </div>
 
-          <Button type="submit" loading={loading} className="w-full">
-            Log in
-          </Button>
-        </form>
+      <div className="flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-sm">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Log in</h1>
+          <p className="mt-1 text-sm text-slate-500">Welcome back — log in to your account.</p>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-emerald-700 hover:underline">
-            Sign up
-          </Link>
-        </p>
-      </Card>
+          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+            <Input
+              label="Email or Phone"
+              id="identifier"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              placeholder="you@example.com"
+              required
+            />
+            <Input
+              label="Password"
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            {error && <Alert tone="error">{error}</Alert>}
+
+            <Button type="submit" loading={loading} className="w-full" size="lg">
+              Log in
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Don&apos;t have an account?{' '}
+            <Link href="/signup" className="font-semibold text-brand-700 hover:text-brand-800">
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

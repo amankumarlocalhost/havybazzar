@@ -5,7 +5,13 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
+import Select from '@/components/ui/Select';
+import Textarea from '@/components/ui/Textarea';
+import Checkbox from '@/components/ui/Checkbox';
+import Radio from '@/components/ui/Radio';
 import Button from '@/components/ui/Button';
+import Alert from '@/components/ui/Alert';
+import PageHeader from '@/components/ui/PageHeader';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -24,6 +30,7 @@ export default function PostEquipmentPage() {
     state: '',
     listingType: 'fixed_price',
     fixedPrice: '',
+    quantity: '1',
     startingBid: '',
     minBidIncrement: '',
     reservePrice: '',
@@ -101,6 +108,7 @@ export default function PostEquipmentPage() {
 
       if (form.listingType === 'fixed_price') {
         body.fixedPrice = Number(form.fixedPrice);
+        body.quantity = Number(form.quantity) || 1;
       } else {
         body.auctionConfig = {
           startingBid: Number(form.startingBid),
@@ -122,11 +130,11 @@ export default function PostEquipmentPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-gray-900">Post Equipment</h1>
+      <PageHeader title="Post Equipment" description="List your equipment for sale or start a live auction." />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
-          <h2 className="mb-4 text-sm font-medium text-gray-900">Basic Details</h2>
+          <h2 className="mb-4 text-sm font-semibold text-slate-900">Basic Details</h2>
           <div className="space-y-4">
             <Input
               label="Equipment Name"
@@ -136,46 +144,37 @@ export default function PostEquipmentPage() {
               required
             />
 
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Description</label>
-              <textarea
-                value={form.description}
-                onChange={(e) => updateForm('description', e.target.value)}
-                rows={3}
-                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
-              />
-            </div>
+            <Textarea
+              label="Description"
+              value={form.description}
+              onChange={(e) => updateForm('description', e.target.value)}
+              rows={3}
+            />
 
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Category</label>
-              <select
-                value={form.categoryId}
-                onChange={(e) => updateForm('categoryId', e.target.value)}
-                required
-                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
-              >
-                <option value="">Select a category</option>
-                {categories.map((cat) => (
-                  <option key={cat._id} value={cat._id}>
-                    {cat.name?.en}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label="Category"
+              value={form.categoryId}
+              onChange={(e) => updateForm('categoryId', e.target.value)}
+              required
+            >
+              <option value="">Select a category</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name?.en}
+                </option>
+              ))}
+            </Select>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700">Condition</label>
-                <select
-                  value={form.condition}
-                  onChange={(e) => updateForm('condition', e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
-                >
-                  <option value="excellent">Excellent</option>
-                  <option value="good">Good</option>
-                  <option value="fair">Fair</option>
-                </select>
-              </div>
+              <Select
+                label="Condition"
+                value={form.condition}
+                onChange={(e) => updateForm('condition', e.target.value)}
+              >
+                <option value="excellent">Excellent</option>
+                <option value="good">Good</option>
+                <option value="fair">Fair</option>
+              </Select>
               <Input
                 label="State"
                 value={form.state}
@@ -188,35 +187,42 @@ export default function PostEquipmentPage() {
         </Card>
 
         <Card>
-          <h2 className="mb-4 text-sm font-medium text-gray-900">Pricing</h2>
+          <h2 className="mb-4 text-sm font-semibold text-slate-900">Pricing</h2>
 
-          <div className="mb-4 flex gap-4">
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="radio"
-                checked={form.listingType === 'fixed_price'}
-                onChange={() => updateForm('listingType', 'fixed_price')}
-              />
-              Fixed Price
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="radio"
-                checked={form.listingType === 'auction'}
-                onChange={() => updateForm('listingType', 'auction')}
-              />
-              Auction
-            </label>
+          <div className="mb-4 flex gap-6">
+            <Radio
+              name="listingType"
+              label="Fixed Price"
+              checked={form.listingType === 'fixed_price'}
+              onChange={() => updateForm('listingType', 'fixed_price')}
+            />
+            <Radio
+              name="listingType"
+              label="Auction"
+              checked={form.listingType === 'auction'}
+              onChange={() => updateForm('listingType', 'auction')}
+            />
           </div>
 
           {form.listingType === 'fixed_price' ? (
-            <Input
-              label="Price (₹)"
-              type="number"
-              value={form.fixedPrice}
-              onChange={(e) => updateForm('fixedPrice', e.target.value)}
-              required
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <Input
+                label="Price (₹)"
+                type="number"
+                value={form.fixedPrice}
+                onChange={(e) => updateForm('fixedPrice', e.target.value)}
+                required
+              />
+              <Input
+                label="Units Available"
+                type="number"
+                min="1"
+                value={form.quantity}
+                onChange={(e) => updateForm('quantity', e.target.value)}
+                hint="How many of this item do you have to sell?"
+                required
+              />
+            </div>
           ) : (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -257,7 +263,7 @@ export default function PostEquipmentPage() {
                   required
                 />
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-slate-500">
                 You&apos;ll need to pay the EMD before the auction is published — this happens in the next step after creating the draft.
               </p>
             </div>
@@ -265,11 +271,11 @@ export default function PostEquipmentPage() {
         </Card>
 
         <Card>
-          <h2 className="mb-4 text-sm font-medium text-gray-900">Specifications (optional)</h2>
+          <h2 className="mb-4 text-sm font-semibold text-slate-900">Specifications (optional)</h2>
 
           <div className="space-y-5">
             <div>
-              <p className="mb-2 text-xs font-medium text-gray-500">General</p>
+              <p className="mb-2 text-xs font-medium text-slate-500">General</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <Input
                   placeholder="Brand"
@@ -303,7 +309,7 @@ export default function PostEquipmentPage() {
             </div>
 
             <div>
-              <p className="mb-2 text-xs font-medium text-gray-500">Engine</p>
+              <p className="mb-2 text-xs font-medium text-slate-500">Engine</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <Input
                   placeholder="Engine Brand"
@@ -325,7 +331,7 @@ export default function PostEquipmentPage() {
             </div>
 
             <div>
-              <p className="mb-2 text-xs font-medium text-gray-500">Hydraulic</p>
+              <p className="mb-2 text-xs font-medium text-slate-500">Hydraulic</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <Input
                   placeholder="System Type"
@@ -346,29 +352,23 @@ export default function PostEquipmentPage() {
             </div>
 
             <div>
-              <p className="mb-2 text-xs font-medium text-gray-500">Cabin</p>
+              <p className="mb-2 text-xs font-medium text-slate-500">Cabin</p>
               <div className="flex gap-6">
-                <label className="flex items-center gap-2 text-sm text-gray-700">
-                  <input
-                    type="checkbox"
-                    checked={specs.cabin.hasAirSuspensionSeat}
-                    onChange={(e) => updateSpec('cabin', 'hasAirSuspensionSeat', e.target.checked)}
-                  />
-                  Air Suspension Seat
-                </label>
-                <label className="flex items-center gap-2 text-sm text-gray-700">
-                  <input
-                    type="checkbox"
-                    checked={specs.cabin.hasAirConditioning}
-                    onChange={(e) => updateSpec('cabin', 'hasAirConditioning', e.target.checked)}
-                  />
-                  Air Conditioning
-                </label>
+                <Checkbox
+                  label="Air Suspension Seat"
+                  checked={specs.cabin.hasAirSuspensionSeat}
+                  onChange={(e) => updateSpec('cabin', 'hasAirSuspensionSeat', e.target.checked)}
+                />
+                <Checkbox
+                  label="Air Conditioning"
+                  checked={specs.cabin.hasAirConditioning}
+                  onChange={(e) => updateSpec('cabin', 'hasAirConditioning', e.target.checked)}
+                />
               </div>
             </div>
 
             <div>
-              <p className="mb-2 text-xs font-medium text-gray-500">Undercarriage</p>
+              <p className="mb-2 text-xs font-medium text-slate-500">Undercarriage</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <Input
                   placeholder="Shoes Width (mm)"
@@ -387,7 +387,7 @@ export default function PostEquipmentPage() {
           </div>
         </Card>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <Alert tone="error">{error}</Alert>}
 
         <Button type="submit" loading={submitting}>
           Create Draft and Add Photos

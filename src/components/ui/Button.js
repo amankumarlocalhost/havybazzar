@@ -20,10 +20,10 @@ export default function Button({
 
   const variants = {
     primary:
-      'bg-amber-500 text-slate-900 shadow-sm shadow-amber-500/30 hover:bg-amber-400 focus-visible:ring-amber-500',
-    dark: 'bg-slate-900 text-white hover:bg-slate-800 focus-visible:ring-slate-900',
+      'bg-brand-700 text-white shadow-sm shadow-brand-900/20 hover:bg-brand-800 focus-visible:ring-brand-600',
+    dark: 'bg-ink-900 text-white hover:bg-slate-800 focus-visible:ring-ink-900',
     secondary:
-      'bg-white text-slate-700 border border-slate-300 hover:border-slate-400 hover:bg-slate-50 focus-visible:ring-slate-400',
+      'bg-white text-slate-700 border border-slate-300 hover:border-brand-300 hover:text-brand-800 hover:bg-brand-50/40 focus-visible:ring-brand-400',
     ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-300',
     danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600',
     outlineOnDark:

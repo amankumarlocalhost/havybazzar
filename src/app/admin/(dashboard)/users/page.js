@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { api } from '@/lib/api';
 import { getAdminToken } from '@/lib/tokenStore';
 import Card from '@/components/ui/Card';
@@ -46,6 +47,16 @@ export default function AdminUsersPage() {
     setActing(true);
     try {
       await api.post(`/admin/users/${userId}/activate`, {}, 'admin');
+      load();
+    } finally {
+      setActing(false);
+    }
+  }
+
+  async function handleMakeSeller(userId) {
+    setActing(true);
+    try {
+      await api.post(`/admin/users/${userId}/make-seller`, {}, 'admin');
       load();
     } finally {
       setActing(false);
@@ -133,6 +144,14 @@ export default function AdminUsersPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge status={u.status}>{u.status}</Badge>
+                  <Link href={`/admin/users/${u._id}`}>
+                    <Button variant="secondary">View</Button>
+                  </Link>
+                  {!u.roles?.includes('seller') && u.kycStatus === 'verified' && (
+                    <Button variant="secondary" onClick={() => handleMakeSeller(u._id)} loading={acting}>
+                      Make Seller
+                    </Button>
+                  )}
                   {u.status === 'suspended' ? (
                     <Button onClick={() => handleActivate(u._id)} loading={acting}>
                       Activate

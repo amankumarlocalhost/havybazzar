@@ -8,6 +8,7 @@ import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
 import PageHeader from '@/components/ui/PageHeader';
+import Alert from '@/components/ui/Alert';
 
 export default function NewTicketPage() {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function NewTicketPage() {
             placeholder="Describe your issue in detail"
             required
           />
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <Alert tone="error">{error}</Alert>}
           <Button type="submit" loading={loading}>
             Create Ticket
           </Button>

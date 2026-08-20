@@ -7,9 +7,11 @@ import { formatPaise } from '@/lib/money';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
-import Spinner from '@/components/ui/Spinner';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
+import Tabs from '@/components/ui/Tabs';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import { RowSkeleton } from '@/components/ui/Skeleton';
 import { PackageIcon, PlusIcon, GavelIcon } from '@/components/ui/Icons';
 
 const STATUS_TABS = [
@@ -25,6 +27,8 @@ export default function MyListingsPage() {
   const [status, setStatus] = useState('');
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const loadListings = useCallback(async () => {
     setLoading(true);
@@ -45,13 +49,17 @@ export default function MyListingsPage() {
     loadListings();
   }, [loadListings]);
 
-  async function handleRemove(listingId) {
-    if (!confirm('This listing will be deleted. Continue?')) return;
+  async function handleConfirmDelete() {
+    if (!pendingDeleteId) return;
+    setDeleting(true);
     try {
-      await api.delete(`/listings/${listingId}`, 'user');
-      loadListings();
+      await api.delete(`/listings/${pendingDeleteId}`, 'user');
+      await loadListings();
     } catch {
       // Deletion failed silently — the user can retry.
+    } finally {
+      setDeleting(false);
+      setPendingDeleteId(null);
     }
   }
 
@@ -69,23 +77,15 @@ export default function MyListingsPage() {
         }
       />
 
-      <div className="mb-5 flex flex-wrap gap-2">
-        {STATUS_TABS.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => setStatus(tab.value)}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-              status === tab.value
-                ? 'bg-amber-500 text-slate-900 shadow-sm shadow-amber-500/30'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      <Tabs items={STATUS_TABS} value={status} onChange={setStatus} className="mb-5" />
 
-      {loading && <Spinner />}
+      {loading && (
+        <div className="space-y-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <RowSkeleton key={i} />
+          ))}
+        </div>
+      )}
 
       {!loading && listings.length === 0 && (
         <EmptyState
@@ -131,7 +131,7 @@ export default function MyListingsPage() {
                   </Button>
                 </Link>
                 {['draft', 'rejected'].includes(listing.status) && (
-                  <Button variant="ghost" size="sm" onClick={() => handleRemove(listing._id)}>
+                  <Button variant="ghost" size="sm" onClick={() => setPendingDeleteId(listing._id)}>
                     Delete
                   </Button>
                 )}
@@ -140,6 +140,17 @@ export default function MyListingsPage() {
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={Boolean(pendingDeleteId)}
+        onClose={() => setPendingDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        loading={deleting}
+        danger
+        title="Delete this listing?"
+        description="This listing will be permanently deleted. This action cannot be undone."
+        confirmLabel="Delete listing"
+      />
     </div>
   );
 }

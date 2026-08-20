@@ -10,7 +10,8 @@ import Select from '@/components/ui/Select';
 import Badge from '@/components/ui/Badge';
 import Spinner from '@/components/ui/Spinner';
 import PageHeader from '@/components/ui/PageHeader';
-import { UploadIcon } from '@/components/ui/Icons';
+import Alert from '@/components/ui/Alert';
+import FileUpload from '@/components/ui/FileUpload';
 
 // Backend contract — src/routes/kyc.routes.js + src/validators/kyc.validator.js
 // (heavy-bazar-backend): GET /kyc/me, POST /kyc/submit (multipart, max 5 files
@@ -52,11 +53,10 @@ export default function KycPage() {
     load();
   }, [load]);
 
-  function handleAddDoc(e) {
-    const file = e.target.files[0];
+  function handleAddDoc(files) {
+    const file = files[0];
     if (!file) return;
     setPendingDocs((prev) => [...prev.filter((d) => d.docType !== docType), { docType, file }]);
-    e.target.value = '';
   }
 
   function handleRemoveDoc(type) {
@@ -134,7 +134,7 @@ export default function KycPage() {
           </Card>
         )}
 
-        {error && !canSubmit && <p className="text-sm text-red-600">{error}</p>}
+        {error && !canSubmit && <Alert tone="error">{error}</Alert>}
 
         {canSubmit && (
           <Card>
@@ -164,7 +164,7 @@ export default function KycPage() {
 
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-slate-700">Upload Document</label>
-                <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="mb-3">
                   <Select value={docType} onChange={(e) => setDocType(e.target.value)} className="sm:max-w-[220px]">
                     {DOC_TYPES.map((d) => (
                       <option key={d.value} value={d.value}>
@@ -172,17 +172,13 @@ export default function KycPage() {
                       </option>
                     ))}
                   </Select>
-                  <label className="flex flex-1 cursor-pointer items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50/60 px-3.5 py-2.5 text-sm text-slate-500 transition-colors hover:border-amber-400 hover:bg-amber-50/40">
-                    <UploadIcon className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">Choose a file to upload</span>
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp,application/pdf"
-                      onChange={handleAddDoc}
-                      className="sr-only"
-                    />
-                  </label>
                 </div>
+                <FileUpload
+                  label="Click to upload a document"
+                  hint="JPG, PNG, or PDF"
+                  accept="image/jpeg,image/png,image/webp,application/pdf"
+                  onFiles={handleAddDoc}
+                />
               </div>
 
               {pendingDocs.length > 0 && (
@@ -205,7 +201,7 @@ export default function KycPage() {
                 </div>
               )}
 
-              {error && <p className="text-sm text-red-600">{error}</p>}
+              {error && <Alert tone="error">{error}</Alert>}
 
               <Button type="submit" loading={submitting}>
                 Submit

@@ -72,7 +72,7 @@ export default function SellerAuctionMonitorPage() {
 
       <Card>
         <h3 className="mb-1 flex items-center gap-2 text-sm font-semibold text-slate-900">
-          <GavelIcon className="h-4 w-4 text-amber-500" />
+          <GavelIcon className="h-4 w-4 text-brand-600" />
           Bid Activity
         </h3>
         <p className="mb-3 text-xs text-slate-400">

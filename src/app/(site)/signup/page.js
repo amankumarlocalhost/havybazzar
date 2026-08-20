@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import Alert from '@/components/ui/Alert';
+import { ShieldCheckIcon, GavelIcon, TruckIcon } from '@/components/ui/Icons';
 
 export default function SignupPage() {
   const { signup, verifySignupOtp } = useAuth();
@@ -28,7 +30,6 @@ export default function SignupPage() {
     try {
       await signup(form.email, undefined, form.password, form.fullName);
       setStep('otp'); // backend ne OTP bhej diya (email/phone pe — dev mode me console pe)
-
     } catch (err) {
       setError(err.message);
     } finally {
@@ -51,68 +52,109 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md items-center px-4">
-      <Card className="w-full">
-        {step === 'details' ? (
-          <>
-            <h1 className="mb-1 text-xl font-semibold text-gray-900">Create your account</h1>
-            <p className="mb-6 text-sm text-gray-500">Sign up as a buyer or seller — you can switch roles later</p>
+    <div className="grid min-h-[calc(100vh-4rem)] grid-cols-1 lg:grid-cols-2">
+      <div className="relative hidden overflow-hidden bg-brand-900 lg:flex lg:flex-col lg:justify-between lg:p-12">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--color-brand-700)_0%,_transparent_60%)] opacity-70" />
+        <Link href="/" className="relative flex items-center gap-2 text-lg font-bold text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-sm font-bold">
+            HB
+          </span>
+          Heavy Bazar
+        </Link>
 
-            <form onSubmit={handleDetailsSubmit} className="space-y-4">
-              <Input
-                label="Full name"
-                value={form.fullName}
-                onChange={(e) => updateField('fullName', e.target.value)}
-                required
-              />
-              <Input
-                label="Email"
-                type="email"
-                value={form.email}
-                onChange={(e) => updateField('email', e.target.value)}
-                required
-              />
-              <Input
-                label="Password"
-                type="password"
-                value={form.password}
-                onChange={(e) => updateField('password', e.target.value)}
-                placeholder="At least 8 characters, one capital letter, one number"
-                required
-              />
+        <div className="relative">
+          <h2 className="max-w-sm text-3xl font-bold leading-tight text-white">
+            Join a trusted marketplace for buying and selling heavy equipment.
+          </h2>
+          <div className="mt-8 space-y-4">
+            {[
+              { icon: ShieldCheckIcon, text: 'Verified sellers and secure payments' },
+              { icon: GavelIcon, text: 'Live auctions with real-time bidding' },
+              { icon: TruckIcon, text: 'Buyers and sellers nationwide' },
+            ].map((item) => (
+              <div key={item.text} className="flex items-center gap-3 text-sm text-brand-100">
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-white/10">
+                  <item.icon className="h-4 w-4" />
+                </span>
+                {item.text}
+              </div>
+            ))}
+          </div>
+        </div>
 
-              {error && <p className="text-sm text-red-600">{error}</p>}
+        <p className="relative text-xs text-brand-200">&copy; {new Date().getFullYear()} Heavy Bazar</p>
+      </div>
 
-              <Button type="submit" loading={loading} className="w-full">
-                Send OTP
-              </Button>
-            </form>
-          </>
-        ) : (
-          <>
-            <h1 className="mb-1 text-xl font-semibold text-gray-900">Verify OTP</h1>
-            <p className="mb-6 text-sm text-gray-500">
-              An OTP has been sent to {form.email}
-            </p>
+      <div className="flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-sm">
+          {step === 'details' ? (
+            <>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">Create your account</h1>
+              <p className="mt-1 text-sm text-slate-500">
+                Sign up as a buyer or seller — you can switch roles later.
+              </p>
 
-            <form onSubmit={handleOtpSubmit} className="space-y-4">
-              <Input
-                label="6-digit OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                maxLength={6}
-                required
-              />
+              <form onSubmit={handleDetailsSubmit} className="mt-8 space-y-4">
+                <Input
+                  label="Full name"
+                  value={form.fullName}
+                  onChange={(e) => updateField('fullName', e.target.value)}
+                  required
+                />
+                <Input
+                  label="Email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => updateField('email', e.target.value)}
+                  required
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  value={form.password}
+                  onChange={(e) => updateField('password', e.target.value)}
+                  placeholder="At least 8 characters, one capital letter, one number"
+                  required
+                />
 
-              {error && <p className="text-sm text-red-600">{error}</p>}
+                {error && <Alert tone="error">{error}</Alert>}
 
-              <Button type="submit" loading={loading} className="w-full">
-                Verify
-              </Button>
-            </form>
-          </>
-        )}
-      </Card>
+                <Button type="submit" loading={loading} className="w-full" size="lg">
+                  Send OTP
+                </Button>
+              </form>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">Verify OTP</h1>
+              <p className="mt-1 text-sm text-slate-500">An OTP has been sent to {form.email}</p>
+
+              <form onSubmit={handleOtpSubmit} className="mt-8 space-y-4">
+                <Input
+                  label="6-digit OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  maxLength={6}
+                  required
+                />
+
+                {error && <Alert tone="error">{error}</Alert>}
+
+                <Button type="submit" loading={loading} className="w-full" size="lg">
+                  Verify
+                </Button>
+              </form>
+            </>
+          )}
+
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Already have an account?{' '}
+            <Link href="/login" className="font-semibold text-brand-700 hover:text-brand-800">
+              Log in
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

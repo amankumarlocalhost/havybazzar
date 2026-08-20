@@ -80,7 +80,23 @@ export function AuthProvider({ children }) {
     return result;
   }
 
-  const value = { user, loading, login, signup, verifySignupOtp, logout, switchRole, refreshUser: fetchMe };
+  async function updateProfile(data) {
+    const result = await api.patch('/auth/profile', data, 'user');
+    setUser(result);
+    return result;
+  }
+
+  const value = {
+    user,
+    loading,
+    login,
+    signup,
+    verifySignupOtp,
+    logout,
+    switchRole,
+    updateProfile,
+    refreshUser: fetchMe,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
