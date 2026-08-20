@@ -36,12 +36,12 @@ export function AuthProvider({ children }) {
     async function silentRefresh() {
       try {
         await refreshUserToken();
-        await fetchMe();
       } catch {
-        setUser(null); // koi valid session nahi thi — normal hai, pehli baar aane wale ke liye
-      } finally {
-        setLoading(false);
+        // koi valid session nahi thi — normal hai, pehli baar aane wale ke liye.
+        // Backend /auth/me abhi bhi kaam karega (guest fallback authenticate.js me).
       }
+      await fetchMe();
+      setLoading(false);
     }
     silentRefresh();
   }, [fetchMe]);
