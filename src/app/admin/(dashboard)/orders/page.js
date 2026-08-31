@@ -67,7 +67,7 @@ export default function AdminOrdersPage() {
             onClick={() => setStatus(tab.value)}
             className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
               status === tab.value
-                ? 'bg-amber-500 text-slate-900 shadow-sm shadow-amber-500/30'
+                ? 'bg-brand-500 text-ink-900 shadow-sm shadow-brand-500/25'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -135,7 +135,7 @@ export default function AdminOrdersPage() {
 
                   <Link
                     href={`/admin/orders/${order._id}`}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-brand-300 hover:bg-brand-50/40 hover:text-brand-800"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-surface px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-brand-300 hover:bg-brand-50/40 hover:text-brand-800"
                   >
                     <EyeIcon className="h-4 w-4" />
                     View details

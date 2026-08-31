@@ -1,21 +1,25 @@
 import { AlertTriangleIcon, CheckCircleIcon } from './Icons';
 
+/**
+ * Alert tones — industrial theme. Success ab green nahi, JCB yellow +
+ * white text hai; error ke liye red semantic rakha hai.
+ */
 const TONES = {
   error: {
     wrap: 'border-red-200 bg-red-50 text-red-700',
-    icon: 'text-red-500',
+    icon: 'text-red-400',
   },
   success: {
-    wrap: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-    icon: 'text-emerald-500',
+    wrap: 'border-brand-300 bg-brand-50 text-slate-900',
+    icon: 'text-brand-500',
   },
   info: {
-    wrap: 'border-brand-200 bg-brand-50 text-brand-800',
-    icon: 'text-brand-600',
+    wrap: 'border-slate-300 bg-slate-100 text-slate-700',
+    icon: 'text-slate-500',
   },
   warning: {
-    wrap: 'border-amber-200 bg-amber-50 text-amber-800',
-    icon: 'text-amber-500',
+    wrap: 'border-brand-300 bg-brand-50 text-brand-800',
+    icon: 'text-brand-500',
   },
 };
 

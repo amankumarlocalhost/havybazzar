@@ -115,7 +115,7 @@ export default function OrdersPage() {
                     {STATUS_STEPS.map((step, i) => (
                       <div
                         key={step}
-                        className={`h-2 flex-1 rounded-full ${i <= stepIndex ? 'bg-emerald-500' : 'bg-slate-200'}`}
+                        className={`h-2 flex-1 rounded-full ${i <= stepIndex ? 'bg-brand-500' : 'bg-slate-200'}`}
                       />
                     ))}
                   </div>
@@ -130,7 +130,7 @@ export default function OrdersPage() {
 
                 <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
                   {order.invoiceNumber ? (
-                    <p className="text-xs font-medium text-emerald-700">Invoice: {order.invoiceNumber}</p>
+                    <p className="text-xs font-medium text-brand-700">Invoice: {order.invoiceNumber}</p>
                   ) : (
                     <Button
                       variant="secondary"

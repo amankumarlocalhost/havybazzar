@@ -56,7 +56,7 @@ export default function SellerDashboardPage() {
           <StatCard icon={ClipboardListIcon} label="Draft" value={counts.draft} tone="slate" />
           <StatCard icon={ClockIcon} label="Under Review" value={counts.underReview} tone="amber" />
           <StatCard icon={CheckCircleIcon} label="Active" value={counts.active} tone="brand" />
-          <StatCard icon={TagIcon} label="Sold" value={counts.sold} tone="emerald" />
+          <StatCard icon={TagIcon} label="Sold" value={counts.sold} tone="silver" />
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

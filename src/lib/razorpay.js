@@ -62,7 +62,7 @@ export async function openRazorpayCheckout({
       modal: {
         ondismiss: () => reject(new Error('Payment was cancelled')),
       },
-      theme: { color: '#065f46' },
+      theme: { color: '#ffb400' },
     };
 
     const rzp = new window.Razorpay(options);

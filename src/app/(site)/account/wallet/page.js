@@ -146,7 +146,7 @@ export default function WalletPage() {
               </div>
               <span
                 className={`text-sm font-semibold ${
-                  txn.direction === 'credit' ? 'text-emerald-700' : 'text-red-600'
+                  txn.direction === 'credit' ? 'text-brand-700' : 'text-red-600'
                 }`}
               >
                 {txn.direction === 'credit' ? '+' : '-'}

@@ -9,7 +9,7 @@ export default function Card({
 }) {
   return (
     <Tag
-      className={`rounded-2xl border border-slate-200 bg-white ${padding} shadow-sm text-left ${
+      className={`rounded-2xl border border-slate-200 bg-surface ${padding} shadow-sm text-left ${
         hover ? 'transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md' : ''
       } ${
         interactive

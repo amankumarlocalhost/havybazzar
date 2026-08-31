@@ -45,7 +45,7 @@ export default function SpecTable({ specifications }) {
           <h3 className="mb-2 text-sm font-semibold text-slate-900">
             {GROUP_LABELS[groupKey] || groupKey}
           </h3>
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-slate-200 bg-white p-4 sm:grid-cols-3">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-slate-200 bg-surface p-4 sm:grid-cols-3">
             {Object.entries(fields).map(([fieldKey, value]) =>
               value === undefined || value === null || value === '' ? null : (
                 <div key={fieldKey}>

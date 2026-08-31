@@ -53,7 +53,7 @@ export default function AdminTicketsPage() {
             onClick={() => setStatus(tab.value)}
             className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
               status === tab.value
-                ? 'bg-amber-500 text-slate-900 shadow-sm shadow-amber-500/30'
+                ? 'bg-brand-500 text-ink-900 shadow-sm shadow-brand-500/25'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >

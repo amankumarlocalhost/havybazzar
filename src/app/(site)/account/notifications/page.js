@@ -65,7 +65,7 @@ export default function NotificationsPage() {
         <div className="space-y-2">
           {items.map((n) =>
             n.isRead ? (
-              <Card key={n._id} className="bg-white">
+              <Card key={n._id} className="bg-surface">
                 <NotificationBody notification={n} />
               </Card>
             ) : (

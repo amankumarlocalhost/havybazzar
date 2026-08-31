@@ -44,7 +44,7 @@ export default function FileUpload({
             }`
       } ${className}`}
     >
-      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-brand-700 shadow-sm ring-1 ring-slate-200">
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-surface text-brand-700 shadow-sm ring-1 ring-slate-200">
         <UploadIcon className="h-5 w-5" />
       </span>
       <span className="text-sm font-semibold text-slate-800">{label}</span>

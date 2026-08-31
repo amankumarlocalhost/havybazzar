@@ -65,7 +65,7 @@ export default function TicketDetailPage() {
           <div
             key={i}
             className={`rounded-2xl p-3 text-sm ${
-              reply.isFromAdmin ? 'mr-8 bg-brand-50 text-brand-900' : 'ml-8 bg-slate-100 text-slate-900'
+              reply.isFromAdmin ? 'mr-8 bg-brand-50 text-slate-900' : 'ml-8 bg-slate-100 text-slate-900'
             }`}
           >
             <p>{reply.message}</p>

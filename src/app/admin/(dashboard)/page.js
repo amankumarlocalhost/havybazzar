@@ -59,7 +59,7 @@ export default function AdminDashboardPage() {
         </div>
         {lastUpdated && (
           <p className="flex items-center gap-1.5 text-xs text-slate-400">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-500" />
             Live — updated {lastUpdated.toLocaleTimeString('en-IN')}
           </p>
         )}
@@ -87,7 +87,7 @@ export default function AdminDashboardPage() {
               icon={RupeeIcon}
               label="Total Revenue (Admin)"
               value={formatPaise(stats.totalRevenuePaise)}
-              tone="emerald"
+              tone="silver"
             />
           </div>
 
@@ -107,29 +107,32 @@ export default function AdminDashboardPage() {
                   <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.35} />
-                        <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
+                        <stop offset="0%" stopColor="#ffb400" stopOpacity={0.35} />
+                        <stop offset="100%" stopColor="#ffb400" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                    <XAxis dataKey="label" tick={{ fontSize: 12, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#2b2b2b" />
+                    <XAxis dataKey="label" tick={{ fontSize: 12, fill: '#8f8f8f' }} axisLine={false} tickLine={false} />
                     <YAxis
-                      tick={{ fontSize: 12, fill: '#94a3b8' }}
+                      tick={{ fontSize: 12, fill: '#8f8f8f' }}
                       axisLine={false}
                       tickLine={false}
                       tickFormatter={(v) => formatPaiseShort(v * 100)}
                     />
                     <Tooltip
                       formatter={(value) => [formatPaiseShort(value * 100), 'Revenue']}
-                      contentStyle={{ borderRadius: 12, border: '1px solid #e2e8f0', fontSize: 13 }}
+                      contentStyle={{ borderRadius: 12, border: '1px solid #4d4d4d', background: '#1a1a1a', color: '#ffffff', fontSize: 13 }}
+                      itemStyle={{ color: '#ffb400' }}
+                      labelStyle={{ color: '#bdbdbd' }}
+                      cursor={{ stroke: '#4d4d4d' }}
                     />
                     <Area
                       type="monotone"
                       dataKey="revenue"
-                      stroke="#f59e0b"
+                      stroke="#ffb400"
                       strokeWidth={2.5}
                       fill="url(#revenueFill)"
-                      dot={{ r: 3, fill: '#f59e0b', strokeWidth: 0 }}
+                      dot={{ r: 3, fill: '#ffb400', strokeWidth: 0 }}
                     />
                   </AreaChart>
                 </ResponsiveContainer>

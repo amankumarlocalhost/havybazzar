@@ -50,7 +50,7 @@ export default function AdminReportsPage() {
           icon={TrendUpIcon}
           label="Total Commission"
           value={formatPaise(sales.summary.totalCommissionPaise)}
-          tone="emerald"
+          tone="silver"
         />
       </div>
 

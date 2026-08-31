@@ -235,7 +235,7 @@ function BrowseContent() {
             placeholder="Search — e.g. excavator, JCB"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500"
+            className="w-full rounded-xl border border-slate-300 bg-surface py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500"
           />
         </div>
         <Button type="submit">Search</Button>
@@ -244,7 +244,7 @@ function BrowseContent() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
         {/* Desktop filter sidebar */}
         <aside className="hidden lg:block">
-          <div className="sticky top-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="sticky top-24 rounded-2xl border border-slate-200 bg-surface p-5 shadow-sm">
             <h2 className="mb-4 text-sm font-bold text-slate-900">Filters</h2>
             {filterForm}
           </div>

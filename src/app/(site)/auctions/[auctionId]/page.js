@@ -199,7 +199,7 @@ export default function AuctionPage() {
                 <p className="text-sm text-slate-700">{auction.closeReason}</p>
                 {isWinner && (
                   <>
-                    <p className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
+                    <p className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-brand-700">
                       <CheckCircleIcon className="h-4 w-4" />
                       Congratulations! You won — please complete the remaining payment.
                     </p>

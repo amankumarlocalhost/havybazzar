@@ -35,7 +35,7 @@ export default function LoginPage() {
   return (
     <div className="grid min-h-[calc(100vh-4rem)] grid-cols-1 lg:grid-cols-2">
       <div className="relative hidden overflow-hidden bg-brand-900 lg:flex lg:flex-col lg:justify-between lg:p-12">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--color-brand-700)_0%,_transparent_60%)] opacity-70" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--color-brand-500)_0%,_transparent_55%)] opacity-15" />
         <Link href="/" className="relative flex items-center gap-2 text-lg font-bold text-white">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-sm font-bold">
             HB
@@ -53,7 +53,7 @@ export default function LoginPage() {
               { icon: GavelIcon, text: 'Live auctions with real-time bidding' },
               { icon: TruckIcon, text: 'Buyers and sellers nationwide' },
             ].map((item) => (
-              <div key={item.text} className="flex items-center gap-3 text-sm text-brand-100">
+              <div key={item.text} className="flex items-center gap-3 text-sm text-slate-500">
                 <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-white/10">
                   <item.icon className="h-4 w-4" />
                 </span>
@@ -63,7 +63,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <p className="relative text-xs text-brand-200">&copy; {new Date().getFullYear()} Heavy Bazar</p>
+        <p className="relative text-xs text-slate-400">&copy; {new Date().getFullYear()} Heavy Bazar</p>
       </div>
 
       <div className="flex items-center justify-center px-4 py-16">

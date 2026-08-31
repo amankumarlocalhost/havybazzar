@@ -247,7 +247,7 @@ export default function AdminOrderDetailPage() {
                     </td>
                     <td className="py-2.5 pr-4 text-slate-600">{t.userId?.fullName}</td>
                     <td className="py-2.5 pr-4">
-                      <span className={t.direction === 'credit' ? 'text-emerald-700' : 'text-red-600'}>
+                      <span className={t.direction === 'credit' ? 'text-brand-700' : 'text-red-600'}>
                         {t.direction === 'credit' ? 'Credit' : 'Debit'}
                       </span>
                     </td>

@@ -1,18 +1,19 @@
 export default function StatCard({ icon: Icon, label, value, hint, tone = 'slate' }) {
+  // Industrial tones — green hata diya, uski jagah steel/silver aur yellow.
   const tones = {
     slate: 'bg-slate-100 text-slate-600',
-    brand: 'bg-brand-100 text-brand-700',
-    amber: 'bg-amber-100 text-amber-700',
-    emerald: 'bg-emerald-100 text-emerald-700',
-    red: 'bg-red-100 text-red-700',
+    brand: 'bg-brand-50 text-brand-700',
+    amber: 'bg-brand-50 text-brand-700',
+    silver: 'bg-slate-200 text-slate-800',
+    red: 'bg-red-50 text-red-700',
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-surface p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
         {Icon && (
-          <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${tones[tone]}`}>
+          <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${tones[tone] || tones.slate}`}>
             <Icon className="h-4 w-4" />
           </span>
         )}

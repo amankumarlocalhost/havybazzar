@@ -115,7 +115,7 @@ export default function AdminPaymentsPage() {
             }}
             className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
               status === tab.value
-                ? 'bg-amber-500 text-slate-900 shadow-sm shadow-amber-500/30'
+                ? 'bg-brand-500 text-ink-900 shadow-sm shadow-brand-500/25'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -134,8 +134,8 @@ export default function AdminPaymentsPage() {
             }}
             className={`rounded-full px-3 py-1 text-[11px] font-semibold transition-colors ${
               purpose === tab.value
-                ? 'bg-slate-900 text-white'
-                : 'bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50'
+                ? 'bg-brand-500 text-ink-900'
+                : 'bg-surface text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50'
             }`}
           >
             {tab.label}

@@ -171,7 +171,7 @@ export default function AdminUsersPage() {
                     onChange={(e) => setReason(e.target.value)}
                     placeholder="Enter reason for suspension"
                     rows={2}
-                    className="mb-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
+                    className="mb-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30"
                   />
                   <div className="flex gap-2">
                     <Button variant="danger" onClick={() => handleSuspend(u._id)} loading={acting}>

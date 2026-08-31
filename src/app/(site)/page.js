@@ -79,19 +79,19 @@ export default function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-900">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-brand-700)_0%,_transparent_60%)] opacity-60" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-brand-500)_0%,_transparent_55%)] opacity-15" />
         <HeroMachineryArt
           className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] [mask-image:linear-gradient(to_right,transparent,black_18%)] lg:block"
         />
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-100 ring-1 ring-white/20">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-500 ring-1 ring-white/20">
               Trusted B2B marketplace
             </span>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
               The trusted marketplace for heavy equipment
             </h1>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-brand-100">
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-500">
               Excavators, cranes, and construction equipment — buy directly or bid in a live
               auction, from verified sellers nationwide.
             </p>
@@ -104,7 +104,7 @@ export default function HomePage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search excavators, cranes, JCB..."
-                  className="w-full rounded-xl border border-transparent bg-white py-3 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+                  className="w-full rounded-xl border border-slate-300 bg-surface py-3 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-white/50"
                 />
               </div>
               <Button type="submit" size="lg">
@@ -147,7 +147,7 @@ export default function HomePage() {
                 <Link
                   key={cat._id}
                   href={`/listings?categoryId=${cat._id}`}
-                  className="group flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-800 hover:shadow-md"
+                  className="group flex items-center gap-2 rounded-xl border border-slate-200 bg-surface px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-800 hover:shadow-md"
                 >
                   <LayersIcon className="h-4 w-4 text-slate-400 group-hover:text-brand-600" />
                   {cat.name?.en}
@@ -215,7 +215,7 @@ export default function HomePage() {
             {VALUE_PROPS.map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm"
+                className="rounded-2xl border border-slate-200 bg-surface p-6 text-center shadow-sm"
               >
                 <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
                   <item.icon className="h-5 w-5" />
@@ -230,7 +230,7 @@ export default function HomePage() {
         </section>
 
         {/* Seller CTA */}
-        <section className="overflow-hidden rounded-2xl bg-slate-900 px-8 py-12 text-center sm:px-14">
+        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-surface px-8 py-12 text-center sm:px-14">
           <h2 className="text-2xl font-bold tracking-tight text-white">
             Have equipment to sell?
           </h2>

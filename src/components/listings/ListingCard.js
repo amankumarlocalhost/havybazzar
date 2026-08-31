@@ -46,7 +46,7 @@ export default function ListingCard({ listing, initialWishlisted = false, onWish
   return (
     <Link
       href={`/listings/${listing.slug || listing._id}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-surface shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         {coverImage ? (
@@ -78,7 +78,7 @@ export default function ListingCard({ listing, initialWishlisted = false, onWish
           type="button"
           onClick={handleWishlist}
           aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-slate-500 shadow-sm backdrop-blur transition-colors hover:text-red-500"
+          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-ink-900/80 text-slate-500 ring-1 ring-slate-300/60 backdrop-blur transition-colors hover:text-red-500"
         >
           <HeartIcon className={`h-4 w-4 ${wishlisted ? 'fill-red-500 text-red-500' : ''}`} />
         </button>

@@ -52,10 +52,10 @@ export default function Navbar() {
   const sellLabel = isSeller ? 'Seller Dashboard' : 'Sell Equipment';
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-ink-900/95 backdrop-blur supports-[backdrop-filter]:bg-ink-900/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-brand-800">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-800 text-sm font-bold text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 text-sm font-bold text-ink-900">
             HB
           </span>
           Heavy Bazar
@@ -116,7 +116,7 @@ export default function Navbar() {
                 </button>
 
                 {menuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-60 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1.5 shadow-lg">
+                  <div className="absolute right-0 top-full mt-2 w-60 overflow-hidden rounded-2xl border border-slate-200 bg-surface py-1.5 shadow-lg">
                     <div className="border-b border-slate-100 px-4 py-3">
                       <p className="truncate text-sm font-semibold text-slate-900">{user.fullName}</p>
                       <p className="truncate text-xs text-slate-500">{user.email || user.phone}</p>
@@ -188,7 +188,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
+        <div className="border-t border-slate-200 bg-surface px-4 py-4 lg:hidden">
           <nav className="flex flex-col gap-0.5">
             {NAV_LINKS.map((link) => (
               <Link

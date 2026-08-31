@@ -19,7 +19,7 @@ export default function Tabs({ items, value, onChange, className = '' }) {
             onClick={() => onChange(item.value)}
             className={`flex-shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               active
-                ? 'bg-white text-brand-800 shadow-sm'
+                ? 'bg-ink-700 text-brand-700 shadow-sm ring-1 ring-slate-300/50'
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >

@@ -59,7 +59,7 @@ function PageButton({ num, active, onClick }) {
       aria-current={active ? 'page' : undefined}
       className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
         active
-          ? 'bg-brand-700 text-white shadow-sm'
+          ? 'bg-brand-500 text-ink-900 shadow-sm'
           : 'text-slate-600 hover:bg-slate-100'
       }`}
     >

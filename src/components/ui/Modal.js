@@ -22,14 +22,14 @@ export default function Modal({ open, onClose, title, children, footer, classNam
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-ink-900/50 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-ink-900/75 backdrop-blur-[2px]"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl ${className}`}
+        className={`relative w-full max-w-md rounded-2xl border border-slate-200 bg-surface p-6 shadow-xl ${className}`}
       >
         <div className="mb-4 flex items-start justify-between gap-3">
           {title && <h2 className="text-base font-bold text-slate-900">{title}</h2>}

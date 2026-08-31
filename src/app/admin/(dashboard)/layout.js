@@ -65,7 +65,7 @@ export default function AdminDashboardLayout({ children }) {
                 href={item.href}
                 className={`block rounded-lg px-3 py-2 text-sm ${
                   pathname === item.href
-                    ? 'bg-emerald-50 font-medium text-emerald-800'
+                    ? 'bg-brand-50 font-medium text-brand-700'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
