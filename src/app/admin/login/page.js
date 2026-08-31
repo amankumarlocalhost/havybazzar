@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import Card from '@/components/ui/Card';
+import Logo from '@/components/layout/Logo';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -33,6 +34,7 @@ export default function AdminLoginPage() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md items-center px-4">
       <Card className="w-full">
+        <Logo variant="onLight" priority className="mb-5 h-5 w-auto" />
         <h1 className="mb-1 text-xl font-semibold text-gray-900">Admin Login</h1>
         <p className="mb-6 text-sm text-gray-500">Heavy Bazar admin panel</p>
 

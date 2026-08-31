@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import Spinner from '@/components/ui/Spinner';
 import Button from '@/components/ui/Button';
+import Logo from '@/components/layout/Logo';
 
 const NAV_ITEMS = [
   { href: '/admin', label: 'Dashboard' },
@@ -46,7 +47,8 @@ export default function AdminDashboardLayout({ children }) {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-gray-900">Heavy Bazar Admin</h1>
+          <Logo variant="onLight" priority className="h-5 w-auto" />
+          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Admin panel</p>
           <p className="text-xs text-gray-500">
             {admin.fullName} — {admin.role === 'super_admin' ? 'Super Admin' : 'Sub Admin'}
           </p>

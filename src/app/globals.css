@@ -1,35 +1,30 @@
 @import "tailwindcss";
 
 /**
- * HEAVY BAZAR — INDUSTRIAL THEME (JCB inspired)
+ * HEAVY BAZAR — LIGHT THEME (JCB yellow accent)
  * ---------------------------------------------------------------------------
- * Poora product (website + admin) ek hi dark industrial system pe chalta hai.
- * Purana green brand theme hata diya gaya hai.
+ * Poora customer-facing site ek light theme pe chalta hai — safed/halka
+ * gray page background, white cards, JCB yellow accent. Kuch bands
+ * jaan-boojh kar dark rakhe gaye hain (Navbar, Footer, modal overlay,
+ * admin panel, login/signup ka decorative side-panel) — un sab me `ink`
+ * tokens ya `bg-brand-900` use hota hai, jo THEME-INDEPENDENT true-dark
+ * values hain, isliye neeche wale light revert se wo affected nahi hote.
  *
- *   JCB Yellow  #FFB400  primary actions, active states, accents  (~3%)
- *   Jet Black   #0D0D0D  page background, navbar, footer          (~60%)
- *   Charcoal    #1A1A1A  cards, panels, containers                (~20%)
- *   Steel Gray  #4D4D4D  borders, dividers, secondary UI          (~10%)
- *   Silver      #BDBDBD  muted text, placeholders                 (~5%)
- *   White       #FFFFFF  headings, primary text                   (~2%)
+ *   JCB Yellow  #FFB400  primary actions, active states, accents
+ *   White       #FFFFFF  page/card background, primary surface
+ *   Slate/Gray  standard Tailwind ramps — surfaces & borders halke,
+ *               text dark (jaisa poora codebase originally likha gaya tha)
  *
- * IMPORTANT — yahan Tailwind ke built-in `slate`/`gray` ramps DELIBERATELY
- * override kiye gaye hain. Poora codebase pehle light theme ke liye likha
- * tha (bg-slate-50 = page, text-slate-900 = heading). Ramp ko INVERT karne
- * se har screen bina layout chhede dark ho jaati hai:
- *
- *   50..300  -> surfaces & borders (jet black -> charcoal -> steel gray)
- *   400..950 -> text (silver -> white)
- *
- * Isliye naya code likhte waqt bhi wahi matlab rakhein: chhota number =
- * surface, bada number = text. "Dark text on yellow" ke liye `ink` tokens
- * hain (text-ink-900), kyunki text-slate-900 ab WHITE hai.
+ * NOTE: pehle yahan `slate`/`gray` ramps DELIBERATELY invert kiye gaye the
+ * (chhota number = dark surface, bada number = white text) ek dark theme
+ * banane ke liye. Wo poora revert kar diya gaya hai — ab standard meaning
+ * wapas hai: chhota number = light surface, bada number = dark text.
  * ---------------------------------------------------------------------------
  */
 
 :root {
-  --background: #0d0d0d;
-  --foreground: #ffffff;
+  --background: #f5f6f7;
+  --foreground: #0f172a;
 
   /* Core palette */
   --jcb-yellow: #ffb400;
@@ -41,19 +36,19 @@
 
 @theme {
   /* ---- Brand: JCB yellow ----------------------------------------------
-   * 50..300  = yellow-tinted dark surfaces / borders
+   * 50..300  = light yellow-tinted surfaces / borders
    * 400..800 = actual yellow (actions, links, accents)
-   * 900..950 = jet black (dark hero panels, shadows)
+   * 900..950 = jet black (deliberately-dark bands: hero art, login panel)
    */
-  --color-brand-50: #1c1608;
-  --color-brand-100: #2a2109;
-  --color-brand-200: #3d2f0c;
-  --color-brand-300: #6e5511;
-  --color-brand-400: #c99400;
+  --color-brand-50: #fff8e6;
+  --color-brand-100: #ffefc2;
+  --color-brand-200: #ffe299;
+  --color-brand-300: #ffd066;
+  --color-brand-400: #ffc233;
   --color-brand-500: #ffb400;
-  --color-brand-600: #f0a800;
-  --color-brand-700: #ffb400;
-  --color-brand-800: #e0a000;
+  --color-brand-600: #e0a000;
+  --color-brand-700: #c78e00;
+  --color-brand-800: #a37200;
   --color-brand-900: #0d0d0d;
   --color-brand-950: #000000;
 
@@ -63,60 +58,60 @@
   --color-ink-700: #262626;
   --color-ink-500: #4d4d4d;
 
-  /* ---- Neutrals (INVERTED — comment upar padhein) ---- */
-  --color-slate-50: #121212;
-  --color-slate-100: #1f1f1f;
-  --color-slate-200: #2b2b2b;
-  --color-slate-300: #4d4d4d;
-  --color-slate-400: #8f8f8f;
-  --color-slate-500: #bdbdbd;
-  --color-slate-600: #d0d0d0;
-  --color-slate-700: #e3e3e3;
-  --color-slate-800: #f1f1f1;
-  --color-slate-900: #ffffff;
-  --color-slate-950: #ffffff;
+  /* ---- Neutrals (standard Tailwind slate ramp) ---- */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
 
-  --color-gray-50: #121212;
-  --color-gray-100: #1f1f1f;
-  --color-gray-200: #2b2b2b;
-  --color-gray-300: #4d4d4d;
-  --color-gray-400: #8f8f8f;
-  --color-gray-500: #bdbdbd;
-  --color-gray-600: #d0d0d0;
-  --color-gray-700: #e3e3e3;
-  --color-gray-800: #f1f1f1;
-  --color-gray-900: #ffffff;
-  --color-gray-950: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
 
   /* ---- Amber == brand yellow (admin accents ek hi rang pe rahein) ---- */
-  --color-amber-50: #241b05;
-  --color-amber-100: #2e2308;
-  --color-amber-200: #4a390c;
-  --color-amber-300: #8a6a12;
-  --color-amber-400: #e0a000;
-  --color-amber-500: #ffb400;
-  --color-amber-600: #ffb400;
-  --color-amber-700: #ffc94d;
-  --color-amber-800: #ffd980;
-  --color-amber-900: #ffe4a3;
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
 
-  /* ---- Red: sirf errors/destructive ke liye, dark bg ke hisaab se ---- */
-  --color-red-50: #2a0f0f;
-  --color-red-100: #3a1414;
-  --color-red-200: #5c1f1f;
-  --color-red-300: #8a2b2b;
+  /* ---- Red: errors/destructive, light bg ke hisaab se ---- */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
   --color-red-400: #f87171;
   --color-red-500: #ef4444;
-  --color-red-600: #ff6b6b;
-  --color-red-700: #ff8a8a;
-  --color-red-800: #ffb0b0;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
 
   /* ---- Named surfaces ---- */
-  --color-surface: #1a1a1a;
-  --color-surface-muted: #141414;
-  --color-surface-raised: #212121;
-  --color-border: #2b2b2b;
-  --color-border-strong: #4d4d4d;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-surface-raised: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
 }
 
 @theme inline {
@@ -126,7 +121,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Single dark industrial theme by design — no prefers-color-scheme override. */
+/* Single light industrial theme by design — no prefers-color-scheme override. */
 
 body {
   background: var(--background);
@@ -138,7 +133,260 @@ body {
   color: var(--jet-black);
 }
 
-/* Native controls (date pickers, dropdown arrows, scrollbars) dark rahein */
+/* Native controls (date pickers, dropdown arrows, scrollbars) light rahein */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+}
+
+/* ---- Premium hero entrance motion — subtle, fast, reduced-motion safe ---- */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.7s ease-out both;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation-delay: 0.16s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in,
+  .animate-fade-in-up-delay-1,
+  .animate-fade-in-up-delay-2 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===========================================================================
+   HEAVY BAZAAR — first-load cinematic intro (BrandIntro.js)
+   ---------------------------------------------------------------------------
+   Visibility CSS se control hoti hai, JS state se nahi: root layout ka inline
+   script `<html>` pe `.hb-intro` lagata hai (hydration se pehle), sirf tabhi
+   overlay paint hota hai. Repeat visits pe display:none — zero flash.
+
+   Palette wahi hai jo poore site pe hai: jet black base, JCB yellow accent,
+   silver text. Koi naya rang nahi. Animations sirf transform/opacity pe hain
+   (compositor-only), isliye main thread free rehta hai jab tak site load ho.
+   =========================================================================== */
+
+.hb-intro-overlay {
+  display: none;
+}
+
+.hb-intro .hb-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 40%, #16161a 0%, var(--jet-black) 62%);
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity var(--hb-exit, 620ms) cubic-bezier(0.4, 0, 0.2, 1),
+    transform var(--hb-exit, 620ms) cubic-bezier(0.4, 0, 0.2, 1),
+    filter var(--hb-exit, 620ms) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Exit: fade + halka scale-up + blur — homepage neeche se reveal hoti hai */
+.hb-intro .hb-intro-overlay--exit {
+  opacity: 0;
+  transform: scale(1.035);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* ---- Background layer 1: hazard stripes, bahut halke ---- */
+.hb-intro-stripes {
+  position: absolute;
+  inset: -20%;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 180, 0, 0.055) 0px,
+    rgba(255, 180, 0, 0.055) 2px,
+    transparent 2px,
+    transparent 22px
+  );
+  animation: hb-stripes 26s linear infinite;
+}
+
+/* ---- Background layer 2: dheere guzarti "work light" ---- */
+.hb-intro-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  margin: -75vmax 0 0 -75vmax;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 180, 0, 0.1) 0%, transparent 46%);
+  animation: hb-sweep 9s ease-in-out infinite;
+}
+
+/* ---- Background layer 3: vignette, taaki centre pe focus rahe ---- */
+.hb-intro-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.hb-intro-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 6vw;
+  text-align: center;
+}
+
+/* ---- Brand: blur -> sharp, 98% -> 100%, opacity 0 -> 1 ---- */
+.hb-intro-logo {
+  width: clamp(15rem, 46vw, 33rem);
+  height: auto;
+  filter: drop-shadow(0 0 34px rgba(255, 180, 0, 0.16));
+  animation: hb-brand-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hb-intro-caption {
+  margin-top: clamp(1.1rem, 3vw, 1.9rem);
+  font-size: clamp(0.5rem, 1.5vw, 0.625rem);
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em; /* letter-spacing ka trailing gap balance karta hai */
+  text-transform: uppercase;
+  color: var(--silver);
+  animation: hb-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 340ms both;
+}
+
+/* ---- Meter: patli line + minimal percentage ---- */
+.hb-intro-meter {
+  margin-top: clamp(1.1rem, 2.6vw, 1.6rem);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  animation: hb-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 470ms both;
+}
+
+.hb-intro-track {
+  position: relative;
+  width: clamp(11rem, 42vw, 25rem);
+  height: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hb-intro-fill {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(255, 180, 0, 0.55) 0%, var(--jcb-yellow) 100%);
+  box-shadow: 0 0 12px rgba(255, 180, 0, 0.55);
+  will-change: transform;
+}
+
+.hb-intro-percent {
+  min-width: 3.1ch; /* 2 digits + % — width badalne pe bar na hile */
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(0.625rem, 1.6vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+.hb-intro-percent-sign {
+  margin-left: 0.15em;
+  color: var(--jcb-yellow);
+}
+
+@keyframes hb-brand-in {
+  from {
+    opacity: 0;
+    filter: blur(14px) drop-shadow(0 0 0 transparent);
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 0 34px rgba(255, 180, 0, 0.16));
+    transform: scale(1);
+  }
+}
+
+@keyframes hb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hb-stripes {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -62px, 0); /* stripe period ka multiple — seamless */
+  }
+}
+
+@keyframes hb-sweep {
+  0%,
+  100% {
+    transform: translate3d(-11%, -6%, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(11%, 6%, 0) scale(1.12);
+    opacity: 0.9;
+  }
+}
+
+/* Motion band karne wale users ke liye: sirf ek saaf fade, koi movement nahi */
+@media (prefers-reduced-motion: reduce) {
+  .hb-intro-stripes,
+  .hb-intro-sweep {
+    animation: none;
+  }
+
+  .hb-intro-logo,
+  .hb-intro-caption,
+  .hb-intro-meter {
+    animation: hb-rise 200ms linear both;
+    transform: none;
+  }
 }

@@ -28,6 +28,10 @@ export default function Button({
     danger: 'bg-red-500 text-white hover:bg-red-400 focus-visible:ring-red-400',
     outlineOnDark:
       'border border-white/25 text-white hover:bg-white/10 focus-visible:ring-white',
+    // Premium chip for CTAs sitting on a dark surface (e.g. navbar) — a
+    // glassy brand-tinted outline instead of a flat white/dark pill.
+    premiumOnDark:
+      'bg-brand-500/10 text-brand-400 border border-brand-500/40 hover:bg-brand-500/20 hover:border-brand-500/60 focus-visible:ring-brand-500',
   };
 
   return (

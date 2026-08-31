@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Logo from '@/components/layout/Logo';
 import { useAuth } from '@/context/AuthContext';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
@@ -36,11 +37,8 @@ export default function LoginPage() {
     <div className="grid min-h-[calc(100vh-4rem)] grid-cols-1 lg:grid-cols-2">
       <div className="relative hidden overflow-hidden bg-brand-900 lg:flex lg:flex-col lg:justify-between lg:p-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--color-brand-500)_0%,_transparent_55%)] opacity-15" />
-        <Link href="/" className="relative flex items-center gap-2 text-lg font-bold text-white">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15 text-sm font-bold">
-            HB
-          </span>
-          Heavy Bazar
+        <Link href="/" aria-label="Heavy Bazar — home" className="relative inline-flex items-center">
+          <Logo variant="onDark" className="h-6 w-auto" />
         </Link>
 
         <div className="relative">

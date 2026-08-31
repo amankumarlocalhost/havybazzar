@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { api } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Alert from '@/components/ui/Alert';
 import EmptyState from '@/components/ui/EmptyState';
 import ListingCard from '@/components/listings/ListingCard';
 import { ListingGridSkeleton } from '@/components/ui/Skeleton';
-import HeroMachineryArt from '@/components/site/HeroMachineryArt';
 import {
   SearchIcon,
   ArrowRightIcon,
@@ -17,9 +17,17 @@ import {
   GavelIcon,
   TruckIcon,
   ClockIcon,
+  WalletIcon,
   InboxIcon,
   LayersIcon,
 } from '@/components/ui/Icons';
+
+const TRUST_POINTS = [
+  { icon: ShieldCheckIcon, label: 'Verified Sellers' },
+  { icon: GavelIcon, label: 'Live Auctions' },
+  { icon: TruckIcon, label: 'Nationwide Equipment' },
+  { icon: WalletIcon, label: 'Secure Transactions' },
+];
 
 const VALUE_PROPS = [
   {
@@ -65,6 +73,9 @@ export default function HomePage() {
         setError('Unable to load listings. Please try again later.');
       } finally {
         setLoading(false);
+        // BrandIntro ko batao ki homepage ka critical data aa gaya — isse
+        // intro data ka wait karta hai, apni koi extra request nahi karta.
+        window.dispatchEvent(new Event('hb:app-ready'));
       }
     }
     loadHomeData();
@@ -78,51 +89,96 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-brand-900">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-brand-500)_0%,_transparent_55%)] opacity-15" />
-        <HeroMachineryArt
-          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] [mask-image:linear-gradient(to_right,transparent,black_18%)] lg:block"
-        />
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-500 ring-1 ring-white/20">
-              Trusted B2B marketplace
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              The trusted marketplace for heavy equipment
-            </h1>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-500">
-              Excavators, cranes, and construction equipment — buy directly or bid in a live
-              auction, from verified sellers nationwide.
-            </p>
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-slate-50">
+        {/* Subtle premium depth — soft brand glow + faint dot grid, no gimmicks */}
+        <div className="pointer-events-none absolute -top-32 right-0 h-[420px] w-[420px] rounded-full bg-brand-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,_#0f172a_1px,_transparent_1px)] [background-size:24px_24px]" />
 
-            <form onSubmit={handleSearch} className="mt-8 flex max-w-lg gap-2">
-              <div className="relative flex-1">
-                <SearchIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search excavators, cranes, JCB..."
-                  className="w-full rounded-xl border border-slate-300 bg-surface py-3 pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-white/50"
-                />
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Left: content */}
+            <div className="animate-fade-in-up">
+              <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-800">
+                <ShieldCheckIcon className="h-3.5 w-3.5" />
+                Verified heavy equipment marketplace
+              </span>
+
+              <h1 className="mt-6 text-[2.75rem] font-bold leading-[1.05] tracking-[-0.02em] text-slate-900 sm:text-5xl lg:text-[3.25rem]">
+                The trusted marketplace for <span className="text-brand-600">heavy equipment</span>.
+              </h1>
+
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-500">
+                Excavators, cranes, and construction equipment — buy directly or bid in a live
+                auction, from verified sellers nationwide.
+              </p>
+
+              <form onSubmit={handleSearch} className="mt-9 flex max-w-xl gap-2.5">
+                <div className="relative flex-1">
+                  <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search excavators, cranes, JCB..."
+                    className="w-full rounded-xl border border-slate-300 bg-white py-3.5 pl-11 pr-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm shadow-slate-900/5 transition-shadow focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500"
+                  />
+                </div>
+                <Button type="submit" size="lg">
+                  Search
+                </Button>
+              </form>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/listings">
+                  <Button variant="dark" size="lg">
+                    Browse Equipment
+                  </Button>
+                </Link>
+                <Link href="/seller/listings/new">
+                  <Button variant="secondary" size="lg">
+                    Sell Your Equipment
+                  </Button>
+                </Link>
               </div>
-              <Button type="submit" size="lg">
-                Search
-              </Button>
-            </form>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/listings">
-                <Button variant="secondary" size="lg">
-                  Browse equipment
-                </Button>
-              </Link>
-              <Link href="/seller/listings/new">
-                <Button variant="outlineOnDark" size="lg">
-                  Sell your equipment
-                </Button>
-              </Link>
+              {/* Trust strip — restrained, not cards */}
+              <div className="mt-11 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-slate-200 pt-7">
+                {TRUST_POINTS.map((item) => (
+                  <div key={item.label} className="flex items-center gap-2 text-sm text-slate-600">
+                    <item.icon className="h-4 w-4 text-brand-600" />
+                    <span className="font-medium">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: equipment showcase (stacks below content on mobile, side-by-side from lg) */}
+            <div className="animate-fade-in relative [animation-delay:150ms]">
+              <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-brand-500/10 via-transparent to-transparent blur-2xl" />
+
+              {/* Branded hero shot — /public/hero-loader.png. next/image isliye
+                  ki original PNG bhaari hai; Next ise webp/avif me optimize
+                  karke sirf zaroori size serve karta hai. */}
+              <div className="relative h-64 overflow-hidden rounded-xl shadow-2xl shadow-slate-900/20 ring-1 ring-black/5 sm:h-80 lg:h-[480px]">
+                <Image
+                  src="/hero-loader.png"
+                  alt="Heavy Bazar branded wheel loader on a construction site"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink-900/70 to-transparent" />
+                <div className="absolute bottom-5 left-5 flex items-center gap-2.5 rounded-xl bg-surface/95 px-4 py-3 shadow-lg backdrop-blur">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+                    <ShieldCheckIcon className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <p className="text-xs font-semibold text-slate-900">Inspected &amp; verified</p>
+                    <p className="text-[11px] text-slate-500">Every listing checked before going live</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -230,7 +286,7 @@ export default function HomePage() {
         </section>
 
         {/* Seller CTA */}
-        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-surface px-8 py-12 text-center sm:px-14">
+        <section className="overflow-hidden rounded-2xl bg-ink-900 px-8 py-12 text-center sm:px-14">
           <h2 className="text-2xl font-bold tracking-tight text-white">
             Have equipment to sell?
           </h2>

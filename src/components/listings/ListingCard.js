@@ -8,10 +8,7 @@ import { formatPaise } from '@/lib/money';
 import { useAuth } from '@/context/AuthContext';
 import { api } from '@/lib/api';
 import { HeartIcon, MapPinIcon, GavelIcon } from '@/components/ui/Icons';
-
-function cloudinaryUrl(fileKey) {
-  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${fileKey}`;
-}
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 export default function ListingCard({ listing, initialWishlisted = false, onWishlistChange }) {
   const { user } = useAuth();
