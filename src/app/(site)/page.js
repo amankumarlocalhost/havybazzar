@@ -89,22 +89,28 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-slate-50">
-        {/* Subtle premium depth — soft brand glow + faint dot grid, no gimmicks */}
-        <div className="pointer-events-none absolute -top-32 right-0 h-[420px] w-[420px] rounded-full bg-brand-500/10 blur-3xl" />
+      {/* Champagne wash + do gold glow: ek headline ke peeche, ek badi ambient
+          machine ke peeche. Dono pointer-events-none hain. */}
+      <section className="hb-hero-bg relative overflow-hidden">
+        <div className="pointer-events-none absolute left-[6%] top-[18%] h-[420px] w-[520px] -translate-x-1/4 rounded-full bg-brand-500/20 blur-[110px]" />
+        <div className="pointer-events-none absolute right-[-8%] top-1/2 h-[680px] w-[680px] -translate-y-1/2 rounded-full bg-brand-500/25 blur-[130px]" />
         <div className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,_#0f172a_1px,_transparent_1px)] [background-size:24px_24px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left: content */}
             <div className="animate-fade-in-up">
-              <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-800">
-                <ShieldCheckIcon className="h-3.5 w-3.5" />
+              {/* Warm bronze-gold metal pill with a thin gold hairline */}
+              <span className="hb-metal-dark inline-flex items-center gap-2 rounded-full border border-brand-500/45 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-200 shadow-sm shadow-slate-900/20">
+                <ShieldCheckIcon className="h-3.5 w-3.5 text-brand-400" />
                 Verified heavy equipment marketplace
               </span>
 
               <h1 className="mt-6 text-[2.75rem] font-bold leading-[1.05] tracking-[-0.02em] text-slate-900 sm:text-5xl lg:text-[3.25rem]">
-                The trusted marketplace for <span className="text-brand-600">heavy equipment</span>.
+                The trusted marketplace for{' '}
+                {/* Accent: wahi bold sans, par metallic gold gradient text.
+                    inline-block + pb/-mb isliye taaki 'q' ka descender clip na ho. */}
+                <span className="hb-metal-text inline-block pb-1 -mb-1">heavy equipment</span>.
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-500">
@@ -123,19 +129,21 @@ export default function HomePage() {
                     className="w-full rounded-xl border border-slate-300 bg-white py-3.5 pl-11 pr-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm shadow-slate-900/5 transition-shadow focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500"
                   />
                 </div>
-                <Button type="submit" size="lg">
+                {/* Metallic gold CTA — shared Button chheda nahi, sirf hero me
+                    `hb-metal` finish lagayi hai (inner highlight + bronze base). */}
+                <Button type="submit" size="lg" className="hb-metal rounded-2xl border border-brand-800/30 px-7 shadow-md shadow-brand-500/30">
                   Search
                 </Button>
               </form>
 
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link href="/listings">
-                  <Button variant="dark" size="lg">
+                  <Button variant="dark" size="lg" className="rounded-2xl border-transparent px-7">
                     Browse Equipment
                   </Button>
                 </Link>
                 <Link href="/seller/listings/new">
-                  <Button variant="secondary" size="lg">
+                  <Button variant="dark" size="lg" className="rounded-2xl border-transparent px-7">
                     Sell Your Equipment
                   </Button>
                 </Link>
@@ -152,30 +160,40 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right: equipment showcase (stacks below content on mobile, side-by-side from lg) */}
-            <div className="animate-fade-in relative [animation-delay:150ms]">
-              <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-brand-500/10 via-transparent to-transparent blur-2xl" />
+            {/* Right: equipment showcase (mobile pe content ke neeche, lg se side-by-side).
+                Machine ka background cut kiya hua hai (transparent PNG) aur uska
+                ground shadow image me hi baked hai — peeche sirf ek glowing gold
+                stage hai, jisse machine bahar nikalti hui lagti hai. */}
+            <div className="animate-fade-in relative [animation-delay:150ms] mt-4 lg:mt-0">
+              {/* Showcase stage — patli glowing gold border, machine iske
+                  aage nikalti hai (overflow visible), isliye frame me chipki
+                  hui nahi lagti. */}
+              <div className="pointer-events-none absolute inset-x-2 bottom-8 top-6 rounded-[2rem] border border-brand-400/50 bg-gradient-to-b from-white/70 to-brand-50/30 shadow-[0_0_70px_-14px_rgba(255,180,0,0.65)] lg:inset-x-6" />
 
-              {/* Branded hero shot — /public/hero-loader.png. next/image isliye
-                  ki original PNG bhaari hai; Next ise webp/avif me optimize
-                  karke sirf zaroori size serve karta hai. */}
-              <div className="relative h-64 overflow-hidden rounded-xl shadow-2xl shadow-slate-900/20 ring-1 ring-black/5 sm:h-80 lg:h-[480px]">
+              {/* Machine (badge ke saath) thoda upar uthi hui hai — stage aur
+                  glow apni jagah rehte hain, isliye wo bahar nikalti hui lagti
+                  hai. Layout pe koi asar nahi kyunki ye transform hai. */}
+              <div className="relative mx-auto w-full max-w-[34rem] -translate-y-3 lg:max-w-none lg:w-[112%] lg:-mr-[12%] lg:-translate-y-8">
                 <Image
-                  src="/hero-loader.png"
-                  alt="Heavy Bazar branded wheel loader on a construction site"
-                  fill
+                  src="/hero-machine.png"
+                  alt="Heavy Bazar S-700R wheel loader emerging from a tablet showing a live construction site"
+                  width={1216}
+                  height={797}
                   priority
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover"
+                  sizes="(min-width: 1024px) 58vw, (min-width: 640px) 90vw, 100vw"
+                  className="h-auto w-full select-none"
                 />
-                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink-900/70 to-transparent" />
-                <div className="absolute bottom-5 left-5 flex items-center gap-2.5 rounded-xl bg-surface/95 px-4 py-3 shadow-lg backdrop-blur">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+
+                {/* Trust card — wahi metallic gold finish, upar saaf dark text */}
+                <div className="hb-metal absolute -bottom-2 left-0 flex items-center gap-2.5 rounded-2xl border border-white/50 px-4 py-3 shadow-lg shadow-brand-800/30 sm:bottom-2 lg:bottom-6 lg:left-4">
+                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-ink-900/85 text-brand-400">
                     <ShieldCheckIcon className="h-4 w-4" />
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-slate-900">Inspected &amp; verified</p>
-                    <p className="text-[11px] text-slate-500">Every listing checked before going live</p>
+                    <p className="text-xs font-bold text-ink-900">Inspected &amp; verified</p>
+                    <p className="text-[11px] font-medium text-ink-900/70">
+                      Every listing checked before going live
+                    </p>
                   </div>
                 </div>
               </div>

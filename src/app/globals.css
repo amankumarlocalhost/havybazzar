@@ -390,3 +390,51 @@ body {
     transform: none;
   }
 }
+
+/* ===========================================================================
+   HERO — metallic gold finishes
+   ---------------------------------------------------------------------------
+   Hero ke premium accents (badge, search CTA, floating card, heading accent)
+   ek hi "metal" recipe se aate hain, taaki har jagah light source same lage
+   aur long Tailwind gradient strings repeat na karein.
+
+   Teen stops har jagah same hain: upar highlight, beech me JCB yellow,
+   neeche bronze shadow. Yahi cheez flat yellow ko METALLIC banati hai.
+   =========================================================================== */
+
+.hb-metal {
+  /* Metallic sirf GRADIENT se aati hai — box-shadow jaan-boojh kar nahi
+     chhua, kyunki Tailwind ke ring/shadow utilities usi property pe chalte
+     hain. Ye file unlayered hai, isliye yahan box-shadow likhte to button ka
+     focus ring hi gayab ho jaata (accessibility). */
+  background-image: linear-gradient(
+    180deg,
+    #fff0c9 0%,
+    /* top highlight */ #ffd166 18%,
+    var(--jcb-yellow) 52%,
+    #c98a00 88%,
+    /* bronze base */ #b87d00 100%
+  );
+}
+
+.hb-metal:hover {
+  background-image: linear-gradient(180deg, #fff6dd 0%, #ffdc8a 18%, #ffc02b 52%, #b57c00 88%, #a06d00 100%);
+}
+
+/* Dark bronze variant — badge ke liye (gold text is ke upar padhne layak rahe) */
+.hb-metal-dark {
+  background-image: linear-gradient(135deg, #5b4517 0%, #2b2009 55%, #4a3712 100%);
+}
+
+/* Heading accent — wahi metal, par text pe clip karke */
+.hb-metal-text {
+  background-image: linear-gradient(180deg, #ffd884 0%, #f0a800 44%, #9c6800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hero ka champagne background wash */
+.hb-hero-bg {
+  background-image: linear-gradient(158deg, #fff8e7 0%, #fffdf8 46%, #fbefd6 100%);
+}
