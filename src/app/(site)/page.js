@@ -109,8 +109,12 @@ export default function HomePage() {
               <h1 className="mt-6 text-[2.75rem] font-bold leading-[1.05] tracking-[-0.02em] text-slate-900 sm:text-5xl lg:text-[3.25rem]">
                 The trusted marketplace for{' '}
                 {/* Accent: wahi bold sans, par metallic gold gradient text.
-                    inline-block + pb/-mb isliye taaki 'q' ka descender clip na ho. */}
-                <span className="hb-metal-text inline-block pb-1 -mb-1">heavy equipment</span>.
+                    INLINE rakha hai (inline-block nahi) taaki ye baaki heading ke
+                    saath normally wrap ho — inline-block ek atoot block ban jaata
+                    hai aur "heavy equipment" poora agli line pe chala jaata hai.
+                    box-decoration-clone se har line ko poora gradient milta hai,
+                    warna pehli line light aur doosri dark nikalti. */}
+                <span className="hb-metal-text box-decoration-clone">heavy equipment</span>.
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-500">
