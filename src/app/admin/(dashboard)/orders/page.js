@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { api } from '@/lib/api';
 import { formatPaise } from '@/lib/money';
 import Card from '@/components/ui/Card';
@@ -9,7 +10,7 @@ import Select from '@/components/ui/Select';
 import Spinner from '@/components/ui/Spinner';
 import EmptyState from '@/components/ui/EmptyState';
 import PageHeader from '@/components/ui/PageHeader';
-import { PackageIcon } from '@/components/ui/Icons';
+import { PackageIcon, EyeIcon } from '@/components/ui/Icons';
 
 const STATUS_TABS = [
   { value: 'all', label: 'All' },
@@ -131,6 +132,14 @@ export default function AdminOrdersPage() {
                       </option>
                     ))}
                   </Select>
+
+                  <Link
+                    href={`/admin/orders/${order._id}`}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-brand-300 hover:bg-brand-50/40 hover:text-brand-800"
+                  >
+                    <EyeIcon className="h-4 w-4" />
+                    View details
+                  </Link>
                 </div>
               </div>
             </Card>

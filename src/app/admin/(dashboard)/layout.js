@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { href: '/admin/listings', label: 'Listings', permission: 'listings:view' },
   { href: '/admin/auctions', label: 'Auctions', permission: 'listings:view' },
   { href: '/admin/orders', label: 'Orders', permission: 'orders:view' },
+  { href: '/admin/payments', label: 'Payments', permission: 'transactions:view' },
   { href: '/admin/users', label: 'Users', permission: 'users:view' },
   { href: '/admin/categories', label: 'Categories', permission: 'categories:manage' },
   { href: '/admin/cms', label: 'CMS Pages', permission: 'cms:manage' },
