@@ -123,9 +123,69 @@
 
 /* Single light industrial theme by design — no prefers-color-scheme override. */
 
+/**
+ * Horizontal overflow guard.
+ * ---------------------------------------------------------------------------
+ * Hero ki machine jaan-boojh kar apne column se bahar nikalti hai (aur aise
+ * bleeding elements aage bhi aa sakte hain). Wo page ke right edge se bahar
+ * jaake ek bekaar horizontal scrollbar bana deta hai.
+ *
+ * `clip` use kiya hai, `hidden` nahi — `hidden` element ko SCROLL CONTAINER
+ * bana deta hai, jisse `position: sticky` navbar aur scroll-anchoring jaise
+ * behaviours toot sakte hain. `clip` sirf paint clip karta hai, scrolling ko
+ * haath nahi lagata. Purane browsers (Safari < 16) `clip` nahi samajhte, wahan
+ * upar wali `hidden` line fallback ban jaati hai.
+ *
+ * Guard SIRF `html` pe hai, `body` pe nahi: html ka overflow viewport pe
+ * propagate hota hai (html khud scroll container nahi banta), isliye sticky
+ * navbar safe rehta hai. Body pe `hidden` likh dete to wo khud scroll
+ * container ban jaata aur navbar chipakna band kar deta.
+ *
+ * VERTICAL scroll dono case me poora normal rehta hai.
+ */
+html {
+  overflow-x: hidden;
+  overflow-x: clip;
+
+  /* Patli scrollbar — neeche wale block me iski wajah likhi hai */
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 0.28) transparent;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/**
+ * Scrollbar — default chunky gray bar ki jagah patli, subtle bar.
+ * Scroll functionality bilkul waisi hi rehti hai; "display: none" NAHI kiya,
+ * kyunki usse bar gayab to ho jaata par user ko pata hi nahi chalta ki page
+ * me aur content hai, aur mouse se drag karke scroll karna bhi chala jaata.
+ * Ye slim version premium lagta hai aur usable rehta hai.
+ */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(0 0 0 / 0.22);
+  border: 3px solid transparent; /* transparent border thumb ko patla dikhata hai */
+  border-radius: 999px;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(0 0 0 / 0.38);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 ::selection {
