@@ -92,9 +92,25 @@ export default function HomePage() {
       {/* Champagne wash + do gold glow: ek headline ke peeche, ek badi ambient
           machine ke peeche. Dono pointer-events-none hain. */}
       <section className="hb-hero-bg relative overflow-hidden">
+        {/* Asli quarry photo poore hero ke peeche. next/image fill use kiya hai
+            (CSS background nahi) taaki ye optimize ho ke, sahi size me aaye. */}
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="pointer-events-none select-none object-cover object-center"
+        />
+        {/* Champagne wash — photo ko itna halka karta hai ki dark headline aur
+            slate paragraph dono readable rahein. Left side (jahan text hai)
+            zyada opaque, right side halka taaki machine ke peeche quarry dikhe. */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,rgba(255,251,240,0.94)_0%,rgba(255,251,240,0.87)_36%,rgba(255,248,231,0.64)_62%,rgba(255,245,222,0.52)_100%)]" />
+        {/* Neeche wale section me smooth blend — photo ki hard edge nahi dikhti */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-[#fffdf8]" />
         <div className="pointer-events-none absolute left-[6%] top-[18%] h-[420px] w-[520px] -translate-x-1/4 rounded-full bg-brand-500/20 blur-[110px]" />
         <div className="pointer-events-none absolute right-[-8%] top-1/2 h-[680px] w-[680px] -translate-y-1/2 rounded-full bg-brand-500/25 blur-[130px]" />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle,_#0f172a_1px,_transparent_1px)] [background-size:24px_24px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
