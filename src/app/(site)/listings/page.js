@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
+import { sortForFilter } from '@/lib/listings';
 import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
 import Input from '@/components/ui/Input';
@@ -29,6 +30,26 @@ const LISTING_TYPES = [
   { value: 'auction', label: 'Auction' },
 ];
 
+/**
+ * Homepage shelves (`?filter=`) yahi page kholte hain — alag page nahi, taaki
+ * filters/pagination/card sab ek hi jagah rahein. Filter sirf DEFAULT ordering
+ * aur heading badalta hai; user phir bhi sort dropdown se override kar sakta hai.
+ */
+const SHELVES = {
+  latest: {
+    title: 'Latest equipment',
+    description: 'Freshly added equipment from verified sellers.',
+  },
+  featured: {
+    title: 'Featured equipment',
+    description: 'Handpicked equipment from trusted sellers.',
+  },
+  popular: {
+    title: 'Popular equipment',
+    description: 'Equipment buyers are looking for right now.',
+  },
+};
+
 const SORTS = [
   { value: 'newest', label: 'Newest first' },
   { value: 'price_asc', label: 'Price: low to high' },
@@ -39,6 +60,8 @@ function BrowseContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const categoryId = searchParams.get('categoryId') || '';
+  const shelf = searchParams.get('filter') || '';
+  const shelfCopy = SHELVES[shelf];
 
   const [listings, setListings] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -49,8 +72,11 @@ function BrowseContent() {
 
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [listingType, setListingType] = useState(searchParams.get('listingType') || '');
-  const [condition, setCondition] = useState('');
-  const [state, setState] = useState('');
+  // Homepage hero apne Condition/Location filters inhi params me bhejta hai,
+  // isliye ye bhi URL se seed hote hain (search/listingType ki tarah).
+  const [condition, setCondition] = useState(searchParams.get('condition') || '');
+  const [state, setState] = useState(searchParams.get('state') || '');
+  const [brand, setBrand] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [sort, setSort] = useState('newest');
@@ -82,7 +108,7 @@ function BrowseContent() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset pagination when filters change
     setPage(1);
-  }, [listingType, condition, state, minPrice, maxPrice, sort, search, categoryId]);
+  }, [listingType, condition, state, brand, minPrice, maxPrice, sort, search, categoryId, shelf]);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -92,11 +118,21 @@ function BrowseContent() {
     router.push(`/listings?${params.toString()}`);
   }
 
+  // Brand ki koi alag API nahi hai — options wahi listings se aate hain jo
+  // pehle se load ho chuki hain, isliye ek bhi extra request nahi lagti.
+  const brands = useMemo(() => {
+    const set = new Set(
+      listings.map((l) => l.specifications?.general?.brand).filter(Boolean)
+    );
+    return [...set].sort((a, b) => a.localeCompare(b));
+  }, [listings]);
+
   const filtered = useMemo(() => {
     let items = [...listings];
 
     if (listingType) items = items.filter((l) => l.listingType === listingType);
     if (condition) items = items.filter((l) => l.condition === condition);
+    if (brand) items = items.filter((l) => l.specifications?.general?.brand === brand);
     if (state) {
       const q = state.trim().toLowerCase();
       items = items.filter((l) => l.location?.state?.toLowerCase().includes(q));
@@ -110,6 +146,10 @@ function BrowseContent() {
       items = items.filter((l) => l.listingType !== 'fixed_price' || (l.fixedPricePaise ?? 0) <= max);
     }
 
+    // Sort dropdown chhua nahi gaya to shelf ka apna ranking lagta hai
+    // (wahi function jo homepage use karta hai).
+    if (sort === 'newest' && shelfCopy) items = sortForFilter(items, shelf);
+
     if (sort === 'price_asc' || sort === 'price_desc') {
       items.sort((a, b) => {
         const av = a.fixedPricePaise ?? Number.POSITIVE_INFINITY;
@@ -119,7 +159,7 @@ function BrowseContent() {
     }
 
     return items;
-  }, [listings, listingType, condition, state, minPrice, maxPrice, sort]);
+  }, [listings, listingType, condition, state, brand, minPrice, maxPrice, sort, shelf, shelfCopy]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -128,6 +168,7 @@ function BrowseContent() {
     setListingType('');
     setCondition('');
     setState('');
+    setBrand('');
     setMinPrice('');
     setMaxPrice('');
     setSort('newest');
@@ -182,6 +223,20 @@ function BrowseContent() {
 
       <div>
         <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+          Brand
+        </h3>
+        <Select value={brand} onChange={(e) => setBrand(e.target.value)}>
+          <option value="">All brands</option>
+          {brands.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
           Location
         </h3>
         <Input
@@ -221,9 +276,11 @@ function BrowseContent() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">Browse Equipment</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+          {shelfCopy?.title || 'Equipment Marketplace'}
+        </h1>
         <p className="mt-1 text-sm text-slate-500">
-          Explore verified listings from sellers across the country.
+          {shelfCopy?.description || 'Find the right heavy equipment for your project.'}
         </p>
       </div>
 
@@ -293,7 +350,7 @@ function BrowseContent() {
 
           {!loading && pageItems.length > 0 && (
             <>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-4">
                 {pageItems.map((listing) => (
                   <ListingCard key={listing._id} listing={listing} />
                 ))}
