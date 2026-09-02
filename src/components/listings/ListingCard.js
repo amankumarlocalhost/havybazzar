@@ -10,7 +10,17 @@ import { api } from '@/lib/api';
 import { HeartIcon, MapPinIcon, GavelIcon } from '@/components/ui/Icons';
 import { cloudinaryUrl } from '@/lib/cloudinary';
 
-export default function ListingCard({ listing, initialWishlisted = false, onWishlistChange }) {
+/**
+ * @param {string} [ribbon] - Homepage shelf ka label ("Featured" / "Top pick").
+ *   Ye Fixed Price/Auction badge ko REPLACE nahi karta — uske saath dikhta hai,
+ *   kyunki listing type functional info hai aur ribbon sirf shelf ki pehchaan.
+ */
+export default function ListingCard({
+  listing,
+  initialWishlisted = false,
+  onWishlistChange,
+  ribbon,
+}) {
   const { user } = useAuth();
   const router = useRouter();
   const [wishlisted, setWishlisted] = useState(initialWishlisted);
@@ -59,7 +69,7 @@ export default function ListingCard({ listing, initialWishlisted = false, onWish
           </div>
         )}
 
-        <div className="absolute left-3 top-3">
+        <div className="absolute left-3 top-3 flex flex-wrap items-center gap-1.5">
           <Badge status={isAuction ? 'live' : 'active'}>
             {isAuction ? (
               <span className="flex items-center gap-1">
@@ -69,6 +79,11 @@ export default function ListingCard({ listing, initialWishlisted = false, onWish
               'Fixed Price'
             )}
           </Badge>
+          {ribbon && (
+            <span className="inline-flex items-center rounded-full bg-ink-900/85 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-400 ring-1 ring-inset ring-white/15 backdrop-blur">
+              {ribbon}
+            </span>
+          )}
         </div>
 
         <button

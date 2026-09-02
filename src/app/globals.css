@@ -498,3 +498,138 @@ body {
 .hb-hero-bg {
   background-image: linear-gradient(158deg, #fff8e7 0%, #fffdf8 46%, #fbefd6 100%);
 }
+
+/**
+ * HERO PHOTO BAND — height photo ke apne aspect se bandhi hai.
+ * ---------------------------------------------------------------------------
+ * `/hero-site.jpg` 2.81:1 hai aur usme machine image ki poori height (~14%..93%)
+ * gherti hai. Agar band ki height content se decide ho, to `cover` machine ko
+ * viewport-width ke hisaab se bada kar deta hai aur uske tracks search panel ke
+ * peeche chhup jaate hain.
+ *
+ * Isliye band ki height WIDTH se aati hai (37vw ≈ image ka apna ratio, thoda
+ * extra taaki tracks ke neeche zameen bache), ek max cap ke saath — warna
+ * ultrawide pe hero bahut lamba ho jaata.
+ *
+ * `--hb-band` do jagah use hota hai: band ki height, aur lead block ki
+ * min-height. Dono ek hi value se chalte hain, isliye search panel HAMESHA band
+ * ke bilkul neeche baithta hai — machine poori dikhti hai, kate bina.
+ */
+.hb-hero {
+  --hb-band: 26rem;
+}
+
+/* Base (narrow screens): band ek fixed-height top band hai. Ye rule media
+   queries se PEHLE hai — warna baad wala base rule lg override ko haraa deta. */
+.hb-hero-band {
+  height: var(--hb-band);
+}
+
+@media (min-width: 640px) {
+  .hb-hero {
+    --hb-band: 30rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  /*
+   * `/hero-marketplace.jpg` 2.42:1 hai aur usme machine ~90% height gherti hai,
+   * yaani full-bleed pe machine = 0.372 × viewport width. 35vw band usse thoda
+   *    se thoda chhota hai: hero compact rehta hai, aur machine ka wo hissa jo kata
+   * hai wo neeche ke tracks hain — jo waise bhi search panel ke peeche hote hain.
+   * 34rem cap ultrawide pe hero ko badhne se rokta hai.
+   */
+  .hb-hero {
+    --hb-band: min(32vw, 34rem);
+  }
+
+  /*
+   * 10.5rem = section ka top padding + panel ka top margin + panel ki height +
+   * bottom padding. Is exact value se SECTION ki height BAND ke barabar ho jaati
+   * hai — matlab photo poore hero ko edge-to-edge bharti hai, kahin page ka
+   * background (white) nahi jhaankta, aur search panel photo ke UPAR tairta hai.
+   *
+   * Text top-aligned hai (center nahi) taaki heading navbar ke paas rahe aur
+   * uske neeche khaali zameen na bache.
+   */
+  .hb-hero-lead {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Badge ek inline-flex pill hai; flex column me stretch hoke poori chaudai
+       le leta, isliye items ko explicitly start pe rakha hai. */
+    align-items: flex-start;
+    min-height: calc(var(--hb-band) - 10.5rem);
+  }
+
+  /*
+   * Desktop pe band SECTION ke barabar stretch karta hai (height nahi, bottom:0).
+   * --hb-band sirf TARGET height set karta hai (lead ki min-height ke through);
+   * agar kisi width pe text usse lamba nikal aaye, to section badhta hai aur band
+   * uske saath badh jaata hai — neeche kabhi page ka safed background nahi
+   * jhaankta. Narrow screens pe band jaan-boojh kar chhota rehta hai (fixed
+   * height), kyunki wahan search panel photo ke neeche saaf surface pe baithta hai.
+   */
+  .hb-hero-band {
+    height: auto;
+    bottom: 0;
+  }
+}
+
+/**
+ * Hero ka trust/stats card — photo ke upar frosted glass.
+ * `backdrop-filter` jaan-boojh kar halka hai: photo peeche pehchana jaana
+ * chahiye, blur ki deewar nahi banni chahiye. Jin browsers me backdrop-filter
+ * support nahi hai wahan bhi background alpha itni hai ki text readable rahe.
+ */
+.hb-glass {
+  background-color: rgb(255 255 255 / 0.74);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+/**
+ * Stats card ka DARK variant.
+ * Naye hero photo ka right side bright sunset hai — wahan light frosted card
+ * ghul jaata tha. Dark surface pe gold icons aur white text dono saaf padhe
+ * jaate hain, aur ye site ke black+yellow branding se bhi match karta hai.
+ */
+.hb-glass-dark {
+  background-color: rgb(5 5 5 / 0.78);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+/**
+ * Section heading ka gold accent bar — "Browse by category", "Latest listings"
+ * waghairah ke aage. Pseudo-element se aata hai, isliye markup me koi extra
+ * div nahi.
+ */
+.hb-section-title {
+  position: relative;
+  padding-left: 0.875rem;
+}
+
+.hb-section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 3px;
+  border-radius: 999px;
+  background-color: var(--jcb-yellow);
+}
+
+/**
+ * Hero search panel ke borderless selects.
+ * `appearance-none` native arrow hata deta hai, isliye chevron yahan se ek
+ * inline SVG background ke roop me aata hai — koi extra DOM ya JS nahi.
+ */
+.hb-select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 1rem 1rem;
+}

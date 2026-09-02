@@ -57,3 +57,4 @@ export const EyeIcon = (p) => <Svg {...p}><path d="M2.5 12S6 5.5 12 5.5 21.5 12 
 export const DownloadIcon = (p) => <Svg {...p}><path d="M12 4v12M7.5 11.5L12 16l4.5-4.5" /><path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5" /></Svg>;
 export const FilterIcon = (p) => <Svg {...p}><path d="M4 5h16M7 12h10M10.5 19h3" /></Svg>;
 export const TrendUpIcon = (p) => <Svg {...p}><path d="M3 16l6-6 4 4 8-9" /><path d="M15 5h6v6" /></Svg>;
+export const CheckIcon = (p) => <Svg {...p}><path d="M4.5 12.5l5 5 10-11" /></Svg>;
